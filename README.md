@@ -1,29 +1,52 @@
 # CoSEA Dashboard
 
-## Current Features:
-- **Filter Options**:  
-  - **Modality**: Visualizes schools based on CS course delivery modality (in-person, virtual, hybrid or none).  
-  - **Certification**: Highlights schools with and without extra CS-certified teachers.  
+## Overview
+I loosely followed the implementation outlined in *CoSEA_workflow.pptx* and *Tiffany & Tai's Log Book*.
+
+## Current Features
+- **Filter Options**  
+  Allows visualization of data based on:
+  - **Modality**: Schools by CS course delivery methods (in-person, virtual, hybrid, or none).
+  - **Certification**: Highlights schools with and without extra CS-certified teachers.
   - **Disparity**: Maps disproportion indices for Asian, Black, Hispanic, and White students.
 
-- **Suboptions**:  
-  - Enables toggling school classifications under each filter option to refine the map view.  
+- **Suboptions**  
+  - Enables toggling school classifications under each filter option to refine the map view.
 
-- **Legend**:  
-  - Provides a visual reference matching map icons and colors.  
-  - Includes:  
-    - Shapes (circle, triangle) to distinguish classifications.  
-    - School counts and percentages for each filter option.
+- **Map Interaction**  
+  - Visualizes schools with distinct shapes and colors based on selected filters.
+  - Integrates legends with icons and color references matching the map.  
+  - Displays school counts and percentages for classifications.  
 
-## Work in Progress:
-- [ ] Adding a geographical underlay for Georgia.
-- [ ] Adding the logic for viewing school zones.
-- [ ] Refining hover information to show only relevant data.  
-- [ ] **Feature:** Clicking on a school opens a detailed table with additional school information.  
-- [ ] Adding all relevant data from the dataset as additional view options.  
-- [ ] Improving CSS for styling and readability.
+## Planned Features
+- [ ] **Expanded Dataset Views**:  
+  Integrating more dataset columns for visualization and filtering.
+    
+- [ ] **Select District and School**  
+  Users can pick a district and school, with the map centering on the chosen area.
 
-## How to Install:
+- [ ] **Highlight Areas of Concern**  
+  - Users can mark concern zones on the map by:
+    - Clicking specific census blocks.
+    - Drawing freeform shapes snapped to boundaries.
+  - Capture and save these markings along with user identity.
+
+- [ ] **Mark Feedback for Selected Zones**  
+  For each marked area, users can:
+    - Indicate confidence levels (low, medium, high).
+    - Select predefined factors influencing the marking, with the ability to add custom reasons.
+
+- [ ] **Enhanced School Information**  
+  - Clicking a school will open a detailed view with additional contextual information.
+     
+- [ ] **Enhanced Map Features**:  
+   - Adding a geographical underlay for Georgia with visible landmarks and main roads.
+   - Displaying school zones and census blocks for enhanced clarity.
+
+- [ ] **Improve Styling**  
+  Enhance CSS for better user experience.
+
+## How to Install
 1. Clone the repository:
     ```bash
     git clone https://github.com/linnerlek/CoSEA-Dash.git

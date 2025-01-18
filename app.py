@@ -1,59 +1,15 @@
+from config import *
 import json
 import pandas as pd
 from dash import Dash, html, dcc, Input, Output
 import plotly.graph_objects as go
 
-GEOJSON_PATH = "./data/georgia.geojson"
+# Opens the geojson file and reads it
 with open(GEOJSON_PATH, "r") as geo_file:
     geojson = json.load(geo_file)
 
-DATA_PATH = "./data/dataset.csv"
+# Reads the data from the csv file
 data = pd.read_csv(DATA_PATH)
-
-# Disparity column names from Dataset.csv
-DISPARITY_COLUMNS = sorted(
-    ["Disparity_Asian", "Disparity_Black", "Disparity_Hispanic", "Disparity_White"]
-)
-
-# Disparity Color mappings
-DISPARITY_COLORS = [  # Color mappings based on (p.7.1.7) Methodology Draft 01/16/2025
-    "darkred", "red", "lightcoral", "white", "lightgreen", "green", "#004d00"
-]
-
-FILTER_OPTIONS = [
-    {"label": "Modality", "value": "Logic_Class"},
-    {"label": "Certification", "value": "Course_Offered"},
-    {"label": "Disparity", "value": "Disparity"},
-]
-
-# Modality Color mappings
-COLOR_MAPPINGS = {  # Color mappings based on (p.7.1.2) Methodology Draft 01/16/2025
-    "Logic_Class": {
-        "0,0,0": "red",
-        "0,0,1": "red",
-        "1,0,0": "green",
-        "1,0,1": "green",
-        "0,1,0": "orange",
-        "0,1,1": "orange",
-        "1,1,0": "purple",
-        "1,1,1": "purple",
-    }
-}
-
-# CS-Certified Color mappings
-COURSE_OFFERED_COLORS = { # Color mappings based on (p.11 Figure 5) Methodology Draft 01/16/2025
-    "0,0,0": "red",
-    "0,0,1": "red",
-    "0,1,0": "purple",
-    "0,1,1": "purple",
-    "1,1,1": "blue",
-    "1,1,0": "blue",
-    "1,0,1": "green",
-    "1,0,0": "green",
-}
-
-# Which plots are triangle shaped for CS-Certified - based on (p.11 Figure 5) Methodology Draft 01/16/2025
-TRIANGLE_SHAPES = {"0,0,1", "1,0,1", "0,1,1", "1,1,1"}
 
 # Current total schools displayed on map
 def calculate_total_schools(filtered_data, logic_class_keys):
@@ -73,32 +29,59 @@ app = Dash(__name__)
 app.layout = html.Div([
     html.H1("CoSEA Dashboard", style={"textAlign": "center"}),
     html.Div([
-        dcc.RadioItems( # RadioItems to keep them from overlapping can be changed so overlap is allowed
-            id="filter-toggle",
-            options=FILTER_OPTIONS,
-            value="Logic_Class",  # Default to Modality selected can change so defaults to empty if wanted
-            inline=True
-        ),
-        html.Div(id="sub-filter-container", children=[
-            html.Label("School Options:"),
-            dcc.Checklist(
-                id="school-options-toggle",
-                options=[
-                    {"label": data[data['Logic_Class'] == key]
-                        ['School_Classification'].iloc[0], "value": key}
-                    for key in COLOR_MAPPINGS["Logic_Class"].keys()
-                ],
-                value=list(COLOR_MAPPINGS["Logic_Class"].keys()),
-                inline=True
-            ),
-            html.Label("Disparity Options:"),
-            dcc.RadioItems(
-                id="disparity-toggle",
-                options=[{"label": col.replace(
-                    "Disparity_", ""), "value": col} for col in DISPARITY_COLUMNS],
-                value="Disparity_Black",
-                inline=True
+        html.Div([
+            html.Label("Select Overlay:"),
+            dcc.Dropdown(
+                id="filter-toggle",
+                options=FILTER_OPTIONS,
+                value="Logic_Class"
             )
+        ]),
+        html.Div(
+            id="disparity-options-container",
+            style={"display": "none"},  # Initially hidden 
+            children=[
+                html.Label("Disparity Options:", style={"fontWeight": "bold"}),
+                dcc.RadioItems(
+                    id="disparity-toggle",
+                    options=[
+                        {"label": col.replace("Disparity_", ""), "value": col}
+                        for col in DISPARITY_COLUMNS
+                    ],
+                    value="Disparity_Black",
+                    inline=True
+                )
+            ]
+        ),
+        html.Div(id="settings-container", children=[
+            html.Label("School Settings:", style={
+                       "fontWeight": "bold", "marginTop": "20px"}),
+            html.Div([
+                html.Label("Offering Approved CS Classes:",
+                           style={"fontWeight": "bold"}),
+                dcc.Checklist(
+                    id="school-options-toggle",
+                    options=[
+                        {"label": data[data['Logic_Class'] == key]
+                            ['School_Classification'].iloc[0], "value": key}
+                        for key in COLOR_MAPPINGS["Logic_Class"].keys()
+                    ],
+                    value=list(COLOR_MAPPINGS["Logic_Class"].keys()),
+                    inline=True
+                )
+            ], style={"marginBottom": "20px"}),
+            html.Div([
+                html.Label("School Type:", style={"fontWeight": "bold"}),
+                dcc.Checklist(
+                    id="school-type-toggle",
+                    options=[
+                        {"label": locale, "value": locale}
+                        for locale in data["Locale_Type"].unique()
+                    ],
+                    value=data["Locale_Type"].unique().tolist(),
+                    inline=True
+                )
+            ], style={"marginBottom": "20px"}),
         ])
     ]),
     dcc.Graph(id="map-display", config={'displayModeBar': False}),
@@ -106,14 +89,30 @@ app.layout = html.Div([
              style={"padding": "20px", "textAlign": "center"})
 ])
 
+
+
+# Show or hide Disparity Options 
+@app.callback(
+    Output("disparity-options-container", "style"),
+    Input("filter-toggle", "value")
+)
+def toggle_disparity_options(selected_filter):
+    if selected_filter == "Disparity":
+        return {"display": "block"}  
+    else:
+        return {"display": "none"}  
+
+
+
 # Update map and legend
 @app.callback(
     [Output("map-display", "figure"), Output("custom-legend", "children")],
     [Input("filter-toggle", "value"),
      Input("school-options-toggle", "value"),
+     Input("school-type-toggle", "value"),
      Input("disparity-toggle", "value")]
 )
-def update_map(selected_filter, selected_schools, selected_disparity):
+def update_map(selected_filter, selected_schools, selected_locales, selected_disparity):
     fig = go.Figure()
 
     # Add Georgia outline
@@ -127,7 +126,10 @@ def update_map(selected_filter, selected_schools, selected_disparity):
     legend_content = [] # Default to empty legend
 
     # Filter school data based on selected school options
-    filtered_data = data[data["Logic_Class"].isin(selected_schools)].copy()
+    filtered_data = data[
+        (data["Logic_Class"].isin(selected_schools)) &
+        (data["Locale_Type"].isin(selected_locales))
+    ].copy()
 
     # Modality section
     if selected_filter == "Logic_Class":

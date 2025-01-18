@@ -137,10 +137,10 @@ This dataset contains comprehensive information about schools, including demogra
 130. **SCH_INTERNET_WIFIENDEV**: Number of Wi-Fi-enabled devices available in the school.
 131. **Free Lunch**: Number of Free Lunch Which Provided for Student in Each School.
 132. **Reduced Lunch**: Number of Reduced Lunch Which Provided for Student in Each School.
-133. **Demand_Black**: Demand Score for Black CS Students.
-134. **Demand_White**: Demand Score for White CS Students.
-135. **Demand_Asian**: Demand Score for Asian CS Students.
-136. **Demand_Hispanic**: Demand Score for Hispanic CS Students.
+133. **demand_Black**: Demand Score for Black CS Students.
+134. **demand_White**: Demand Score for White CS Students.
+135. **demand_Asian**: Demand Score for Asian CS Students.
+136. **demand_Hispanic**: Demand Score for Hispanic CS Students.
 ## Notes
 - The dataset includes detailed metrics for both academic and disciplinary outcomes.
 - Columns related to Limited English Proficient (LEP) students, disciplinary data, AP enrollment, and computer science participation have been expanded.

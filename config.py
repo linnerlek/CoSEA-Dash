@@ -1,5 +1,6 @@
 # Paths
 GEOJSON_PATH = "./data/georgia.geojson"
+GEORGIA_COUNTIES_GEOJSON_PATH = "./data/georgia_counties.geojson"
 DATA_PATH = "./data/dataset.csv"
 
 # Filter options
@@ -46,7 +47,18 @@ COLOR_MAPPINGS = {
 # Triangle shaped plots for CS-Certified teachers
 TRIANGLE_SHAPES = {"0,0,1", "1,0,1", "0,1,1", "1,1,1"}
 
-# Map overlay options
-MAP_OVERLAY_OPTIONS = [
-    {"label": "Show County Lines", "value": "county_lines"},
-]
+# Default figure layout
+FIGURE_LAYOUT = {
+    "geo": {
+        "showcoastlines": False,
+        "showland": False,
+        "showframe": False,
+        "showocean": False,
+        "fitbounds": "locations",
+        "resolution": 50,
+        "scope": "usa",
+    },
+    "margin": {"r": 0, "t": 0, "l": 0, "b": 0},
+    "showlegend": False,
+    "map_style": "satellite",
+}

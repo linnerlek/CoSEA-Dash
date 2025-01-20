@@ -56,5 +56,4 @@ TRIANGLE_SHAPES = {"0,0,1", "1,0,1", "0,1,1", "1,1,1"}
 # Map overlay options
 MAP_OVERLAY_OPTIONS = [
     {"label": "Show County Lines", "value": "county_lines"},
-    {"label": "Show Roads", "value": "roads"},
 ]

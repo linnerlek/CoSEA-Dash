@@ -9,17 +9,17 @@ FILTER_OPTIONS = [
     {"label": "Disparity", "value": "Disparity"},
 ]
 
-# Disparity column names
+# Disparity column values
 DISPARITY_COLUMNS = sorted(
     ["Disparity_Asian", "Disparity_Black", "Disparity_Hispanic", "Disparity_White"]
 )
 
-# Disparity Color mappings
+# Disparity Color gradient
 DISPARITY_COLORS = [
     "darkred", "red", "lightcoral", "white", "lightgreen", "green", "#004d00"
 ]
 
-# Combined color mappings
+# Color mappings
 COLOR_MAPPINGS = {
     "Logic_Class": {
         "0,0,0": "red",
@@ -43,7 +43,7 @@ COLOR_MAPPINGS = {
     },
 }
 
-# Which plots are triangle shaped for CS-Certified teachers
+# Triangle shaped plots for CS-Certified teachers
 TRIANGLE_SHAPES = {"0,0,1", "1,0,1", "0,1,1", "1,1,1"}
 
 # Map overlay options

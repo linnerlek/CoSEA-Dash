@@ -26,10 +26,10 @@ COLOR_MAPPINGS = {
     "Logic_Class": {
         "0,0,0": "red",
         "0,0,1": "red",
-        "1,0,0": "green",
-        "1,0,1": "green",
         "0,1,0": "orange",
         "0,1,1": "orange",
+        "1,0,0": "green",
+        "1,0,1": "green",
         "1,1,0": "purple",
         "1,1,1": "purple",
     }
@@ -51,3 +51,10 @@ COURSE_OFFERED_COLORS = {
 # Which plots are triangle shaped for CS-Certified
 # based on (p.11 Figure 5) Methodology Draft 01/16/2025
 TRIANGLE_SHAPES = {"0,0,1", "1,0,1", "0,1,1", "1,1,1"}
+
+
+# Map overlay options
+MAP_OVERLAY_OPTIONS = [
+    {"label": "Show County Lines", "value": "county_lines"},
+    {"label": "Show Roads", "value": "roads"},
+]

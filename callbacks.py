@@ -1,8 +1,7 @@
 import pandas as pd
 import plotly.graph_objects as go
-from dash import Input, Output, html
-from config import COLOR_MAPPINGS, DISPARITY_COLUMNS, DISPARITY_COLORS, TRIANGLE_SHAPES, COURSE_OFFERED_COLORS
-from helpers import calculate_total_schools, create_modality_legend, create_course_legend, create_disparity_legend
+from dash import Input, Output
+from helpers import create_modality_legend, create_course_legend, create_disparity_legend
 from layout import data, geojson
 
 

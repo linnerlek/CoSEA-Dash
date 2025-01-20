@@ -1,6 +1,6 @@
+import json
 from dash import html, dcc
 import pandas as pd
-import json
 from config import GEOJSON_PATH, DATA_PATH, FILTER_OPTIONS, DISPARITY_COLUMNS, COLOR_MAPPINGS
 
 # Opens the geojson file and reads it

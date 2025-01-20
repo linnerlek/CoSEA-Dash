@@ -3,12 +3,11 @@ from dash import html, dcc
 import pandas as pd
 from config import GEOJSON_PATH, DATA_PATH, FILTER_OPTIONS, DISPARITY_COLUMNS, COLOR_MAPPINGS
 
-# Opens the geojson file and reads it
 with open(GEOJSON_PATH, "r") as geo_file:
     geojson = json.load(geo_file)
 
-# Reads the data from the CSV file
 data = pd.read_csv(DATA_PATH)
+
 
 def create_layout(app):
     return html.Div([
@@ -35,7 +34,7 @@ def create_layout(app):
                                 "Disparity_", ""), "value": col}
                             for col in DISPARITY_COLUMNS
                         ],
-                        value="Disparity_Black",
+                        value="Disparity_Asian",
                         inline=True
                     )
                 ]

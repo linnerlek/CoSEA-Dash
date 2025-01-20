@@ -6,7 +6,6 @@ from layout import data, geojson
 
 
 def register_callbacks(app):
-    # Show or hide Disparity Options
     @app.callback(
         Output("disparity-options-container", "style"),
         Input("filter-toggle", "value")
@@ -17,7 +16,6 @@ def register_callbacks(app):
         else:
             return {"display": "none"}
 
-    # Update map and legend
     @app.callback(
         [Output("map-display", "figure"), Output("custom-legend", "children")],
         [Input("filter-toggle", "value"),
@@ -28,7 +26,6 @@ def register_callbacks(app):
     def update_map(selected_filter, selected_schools, selected_locales, selected_disparity):
         fig = go.Figure()
 
-        # Add Georgia outline
         fig.add_trace(go.Scattergeo(
             lon=[coord[0] for coord in geojson["geometry"]["coordinates"][0]],
             lat=[coord[1] for coord in geojson["geometry"]["coordinates"][0]],
@@ -36,13 +33,11 @@ def register_callbacks(app):
             line=dict(color="black", width=2)
         ))
 
-        # Filter school data based on selected school options
         filtered_data = data[
             (data["Logic_Class"].isin(selected_schools)) &
             (data["Locale_Type"].isin(selected_locales))
         ].copy()
 
-        # Generate legend and map based on the selected filter
         if selected_filter == "Logic_Class":
             fig, legend_content = create_modality_legend(fig, filtered_data)
         elif selected_filter == "Course_Offered":
@@ -53,7 +48,6 @@ def register_callbacks(app):
         else:
             legend_content = []
 
-        # Update layout
         fig.update_layout(
             geo=dict(
                 projection_type="mercator",

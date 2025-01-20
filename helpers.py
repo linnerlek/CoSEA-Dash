@@ -1,7 +1,7 @@
 from dash import html
 import pandas as pd
 import plotly.graph_objects as go
-from config import COLOR_MAPPINGS, COURSE_OFFERED_COLORS, DISPARITY_COLORS, TRIANGLE_SHAPES, DISPARITY_COLUMNS
+from config import *
 
 
 def calculate_total_schools(filtered_data, logic_class_keys):
@@ -67,10 +67,10 @@ def create_modality_legend(fig, filtered_data):
 
 def create_course_legend(fig, filtered_data):
     total_schools, class_counts = calculate_total_schools(
-        filtered_data, COURSE_OFFERED_COLORS.keys())
+        filtered_data, COLOR_MAPPINGS["Course_Offered"].keys())
     legend_items = []
 
-    for value, color in COURSE_OFFERED_COLORS.items():
+    for value, color in COLOR_MAPPINGS["Course_Offered"].items():
         if value in class_counts:
             count = class_counts[value]
             legend_items.append(html.Li([
@@ -117,17 +117,21 @@ def create_course_legend(fig, filtered_data):
 
 
 def create_disparity_legend(fig, filtered_data, selected_disparity):
+    # Ensure the selected_disparity exists in the data
     if selected_disparity not in filtered_data.columns:
         return fig, html.Div(["No data available for the selected disparity."])
 
+    # Filter data for non-null disparity values
     disparity_data = filtered_data[filtered_data[selected_disparity].notna()].copy(
     )
 
+    # Separate low and high values
     low_values = disparity_data[disparity_data[selected_disparity]
                                 < -0.05][selected_disparity]
     high_values = disparity_data[disparity_data[selected_disparity]
                                  > 0.05][selected_disparity]
 
+    # Bin the values into ranges
     if not low_values.empty:
         low_bins = pd.qcut(low_values, 3, retbins=True, duplicates="drop")[1]
     else:
@@ -147,11 +151,12 @@ def create_disparity_legend(fig, filtered_data, selected_disparity):
         adjusted_labels += ["Light Green", "Green",
                             "Dark Green"][:len(high_bins) - 1]
 
-
+    # Map the adjusted labels to the data
     disparity_data['Disparity_Category'] = pd.cut(
         disparity_data[selected_disparity], bins=bins, labels=adjusted_labels, include_lowest=True
     )
 
+    # Generate the legend content
     category_counts = disparity_data['Disparity_Category'].value_counts(
         sort=False)
     legend_items = []
@@ -170,6 +175,7 @@ def create_disparity_legend(fig, filtered_data, selected_disparity):
             f"{bins[i] * 100:.2f}% to {bins[i + 1] * 100:.2f}% [{count}]"
         ]))
 
+    # Add data points to the map
     fig.add_trace(go.Scattergeo(
         lon=disparity_data["X"],
         lat=disparity_data["Y"],
@@ -205,6 +211,7 @@ def create_disparity_legend(fig, filtered_data, selected_disparity):
         )
     ))
 
+    # Return the updated figure and legend content
     legend_content = html.Div([
         html.H4(f"{selected_disparity.replace(
             'Disparity_', '')} Disproportion Index"),

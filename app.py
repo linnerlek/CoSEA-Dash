@@ -11,18 +11,6 @@ with open(GEOJSON_PATH, "r") as geo_file:
 # Reads the data from the csv file
 data = pd.read_csv(DATA_PATH)
 
-# Current total schools displayed on map
-def calculate_total_schools(filtered_data, logic_class_keys):
-    total = 0
-    class_counts = {}
-    for key in logic_class_keys:
-        class_data = filtered_data[filtered_data["Logic_Class"] == key]
-        count = len(class_data)
-        total += count
-        if count > 0:
-            class_counts[key] = count
-    return total, class_counts
-
 app = Dash(__name__)
 
 # App layout
@@ -89,6 +77,18 @@ app.layout = html.Div([
              style={"padding": "20px", "textAlign": "center"})
 ])
 
+
+# Current total schools displayed on map
+def calculate_total_schools(filtered_data, logic_class_keys):
+    total = 0
+    class_counts = {}
+    for key in logic_class_keys:
+        class_data = filtered_data[filtered_data["Logic_Class"] == key]
+        count = len(class_data)
+        total += count
+        if count > 0:
+            class_counts[key] = count
+    return total, class_counts
 
 
 # Show or hide Disparity Options 

@@ -10,7 +10,6 @@ with open(GEOJSON_PATH, "r") as geo_file:
 # Reads the data from the CSV file
 data = pd.read_csv(DATA_PATH)
 
-
 def create_layout(app):
     return html.Div([
         html.H1("CoSEA Dashboard", style={"textAlign": "center"}),

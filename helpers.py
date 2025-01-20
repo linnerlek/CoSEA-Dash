@@ -16,12 +16,12 @@ def calculate_total_schools(filtered_data, logic_class_keys):
     return total, class_counts
 
 
-def create_modality_legend(fig, filtered_data):
+def generate_legend(fig, filtered_data, color_mapping, title, size_func=None, shape_func=None):
     total_schools, class_counts = calculate_total_schools(
-        filtered_data, COLOR_MAPPINGS["Logic_Class"].keys())
+        filtered_data, color_mapping.keys())
     legend_items = []
 
-    for value, color in COLOR_MAPPINGS["Logic_Class"].items():
+    for value, color in color_mapping.items():
         if value in class_counts:
             count = class_counts[value]
             legend_items.append(html.Li([
@@ -31,25 +31,27 @@ def create_modality_legend(fig, filtered_data):
                     "height": "12px",
                     "display": "inline-block",
                     "marginRight": "8px",
-                    "borderRadius": "50%"
+                    "clipPath": shape_func(value) if shape_func else "circle",
+                    "borderRadius": "50%" if not shape_func or shape_func(value) == "circle" else "0%"
                 }),
                 f"{filtered_data[filtered_data['Logic_Class'] == value]
                     ['School_Classification'].iloc[0]} [{count}]"
             ]))
 
-            modality_data = filtered_data[filtered_data["Logic_Class"] == value].copy(
+            data_subset = filtered_data[filtered_data["Logic_Class"] == value].copy(
             )
             fig.add_trace(go.Scattergeo(
-                lon=modality_data["X"],
-                lat=modality_data["Y"],
+                lon=data_subset["X"],
+                lat=data_subset["Y"],
                 mode="markers",
                 marker=dict(
-                    size=8,
+                    size=size_func(value) if size_func else 8,
                     color=color,
-                    symbol="circle"
+                    symbol="triangle-up" if shape_func and shape_func(
+                        value) == "polygon(50% 0%, 0% 100%, 100% 100%)" else "circle"
                 ),
                 hoverinfo="text",
-                text=modality_data.apply(
+                text=data_subset.apply(
                     lambda row: f"School: {row['School_Name']}<br>School Classification: {
                         row['School_Classification']}<br>Total Students: {row['Total_Student_Count']}",
                     axis=1
@@ -57,63 +59,32 @@ def create_modality_legend(fig, filtered_data):
             ))
 
     legend_content = html.Div([
-        html.H4("CS Course Delivery Modality"),
+        html.H4(title),
         html.H5(f"High Schools [{total_schools}]"),
         html.Ul(legend_items)
     ])
 
     return fig, legend_content
+
+
+def create_modality_legend(fig, filtered_data):
+    return generate_legend(
+        fig,
+        filtered_data,
+        COLOR_MAPPINGS["Logic_Class"],
+        "CS Course Delivery Modality"
+    )
 
 
 def create_course_legend(fig, filtered_data):
-    total_schools, class_counts = calculate_total_schools(
-        filtered_data, COLOR_MAPPINGS["Course_Offered"].keys())
-    legend_items = []
-
-    for value, color in COLOR_MAPPINGS["Course_Offered"].items():
-        if value in class_counts:
-            count = class_counts[value]
-            legend_items.append(html.Li([
-                html.Div(style={
-                    "backgroundColor": color,
-                    "width": "12px",
-                    "height": "12px",
-                    "display": "inline-block",
-                    "marginRight": "8px",
-                    "clipPath": "polygon(50% 0%, 0% 100%, 100% 100%)" if value in TRIANGLE_SHAPES else "circle",
-                    "borderRadius": "50%" if value not in TRIANGLE_SHAPES else "0%"
-                }),
-                f"{filtered_data[filtered_data['Logic_Class'] == value]
-                    ['School_Classification'].iloc[0]} [{count}]"
-            ]))
-
-            course_data = filtered_data[filtered_data["Logic_Class"] == value].copy(
-            )
-            fig.add_trace(go.Scattergeo(
-                lon=course_data["X"],
-                lat=course_data["Y"],
-                mode="markers",
-                marker=dict(
-                    size=12 if value in TRIANGLE_SHAPES else 8,
-                    color=color,
-                    symbol="triangle-up" if value in TRIANGLE_SHAPES else "circle"
-                ),
-                hoverinfo="text",
-                text=course_data.apply(
-                    lambda row: f"School: {row['School_Name']}<br>Course Offered: {
-                        row['School_Classification']}<br>Total Students: {row['Total_Student_Count']}",
-                    axis=1
-                )
-            ))
-
-    legend_content = html.Div([
-        html.H4(
-            "CS Course Delivery Modality AND the presence of extra CS-certified teachers"),
-        html.H5(f"High Schools [{total_schools}]"),
-        html.Ul(legend_items)
-    ])
-
-    return fig, legend_content
+    return generate_legend(
+        fig,
+        filtered_data,
+        COLOR_MAPPINGS["Course_Offered"],
+        "CS Course Delivery Modality AND the presence of extra CS-certified teachers",
+        size_func=lambda value: 12 if value in TRIANGLE_SHAPES else 8,
+        shape_func=lambda value: "polygon(50% 0%, 0% 100%, 100% 100%)" if value in TRIANGLE_SHAPES else "circle"
+    )
 
 
 def create_disparity_legend(fig, filtered_data, selected_disparity):

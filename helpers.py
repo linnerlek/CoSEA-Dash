@@ -1,7 +1,59 @@
 from dash import html
 import pandas as pd
 import plotly.graph_objects as go
+import geopandas as gpd
+from shapely.geometry import Polygon, MultiPolygon
 from config import *
+
+
+def load_data():
+    return pd.read_csv(DATA_PATH)
+
+
+def prepare_options(data):
+    school_classification_options = [
+        {
+            "label": data[data["Logic_Class"] == logic]["School_Classification"].iloc[0],
+            "value": logic
+        }
+        for logic in ORDERED_LOGIC_CLASSES
+        if logic in data["Logic_Class"].unique()
+    ]
+
+    locale_options = [
+        {"label": locale, "value": locale}
+        for locale in data["Locale_Type"].unique()
+    ]
+
+    return school_classification_options, locale_options
+
+# The outlines had to be simplified to reduce the number of points in the geometry due to lag
+
+
+def simplify_geometry(gdf, tolerance=0.01):
+    gdf["geometry"] = gdf["geometry"].apply(
+        lambda geom: geom.simplify(tolerance, preserve_topology=True)
+        if isinstance(geom, (Polygon, MultiPolygon)) else geom
+    )
+    return gdf
+
+
+def load_georgia_outline():
+    gdf = gpd.read_file(GEORGIA_OUTLINE_PATH,
+                        layer="County")
+    gdf = gdf.to_crs("EPSG:4326")
+    return simplify_geometry(gdf)
+
+
+def load_school_districts():
+    secondary_gdf = gpd.read_file(SECONDARY_SCHOOL_DISTRICTS_PATH)
+    unified_gdf = gpd.read_file(UNIFIED_SCHOOL_DISTRICTS_PATH)
+
+    combined_gdf = gpd.GeoDataFrame(
+        pd.concat([secondary_gdf, unified_gdf], ignore_index=True)
+    )
+    combined_gdf = combined_gdf.to_crs("EPSG:4326")
+    return simplify_geometry(combined_gdf)
 
 
 def calculate_total_schools(filtered_data, logic_class_keys):
@@ -18,12 +70,18 @@ def calculate_total_schools(filtered_data, logic_class_keys):
 
 def generate_legend(fig, filtered_data, color_mapping, title, size_func=None, shape_func=None):
     total_schools, class_counts = calculate_total_schools(
-        filtered_data, color_mapping.keys())
+        filtered_data, color_mapping.keys()
+    )
     legend_items = []
 
     for value, color in color_mapping.items():
         if value in class_counts:
             count = class_counts[value]
+
+            school_classification = filtered_data[
+                filtered_data["Logic_Class"] == value
+            ]["School_Classification"].iloc[0]
+
             legend_items.append(html.Li([
                 html.Div(style={
                     "backgroundColor": color,
@@ -34,8 +92,7 @@ def generate_legend(fig, filtered_data, color_mapping, title, size_func=None, sh
                     "clipPath": shape_func(value) if shape_func else "circle",
                     "borderRadius": "50%" if not shape_func or shape_func(value) == "circle" else "0%"
                 }),
-                f"{filtered_data[filtered_data['Logic_Class'] == value]
-                    ['School_Classification'].iloc[0]} [{count}]"
+                f"{school_classification} [{count}]"
             ]))
 
             data_subset = filtered_data[filtered_data["Logic_Class"] == value].copy(

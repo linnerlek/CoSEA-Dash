@@ -1,10 +1,12 @@
 # Paths
-GEOJSON_PATH = "./data/georgia.geojson"
-GEORGIA_COUNTIES_GEOJSON_PATH = "./data/georgia_counties.geojson"
+GEORGIA_OUTLINE_PATH = "./data/shapefiles/tlgdb_2024_a_13_ga.gdb"
+SECONDARY_SCHOOL_DISTRICTS_PATH = "./data/shapefiles/districts/tl_2024_13_scsd/tl_2024_13_scsd.shp"
+UNIFIED_SCHOOL_DISTRICTS_PATH = "./data/shapefiles/districts/tl_2024_13_unsd/tl_2024_13_unsd.shp"
 DATA_PATH = "./data/dataset.csv"
 
 # Filter options
 FILTER_OPTIONS = [
+    {"label": "None", "value": "None"},
     {"label": "Modality", "value": "Logic_Class"},
     {"label": "Certification", "value": "Course_Offered"},
     {"label": "Disparity", "value": "Disparity"},
@@ -44,7 +46,12 @@ COLOR_MAPPINGS = {
     },
 }
 
-# Triangle shaped plots for CS-Certified teachers
+ORDERED_LOGIC_CLASSES = [
+    "0,0,0", "0,0,1", "0,1,0", "0,1,1",
+    "1,0,0", "1,0,1", "1,1,0", "1,1,1"
+]
+
+# Triangle shapes for CS-Certified teachers
 TRIANGLE_SHAPES = {"0,0,1", "1,0,1", "0,1,1", "1,1,1"}
 
 # Default figure layout

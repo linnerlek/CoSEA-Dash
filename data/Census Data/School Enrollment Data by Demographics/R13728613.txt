@@ -1,0 +1,977 @@
+--------------------------------------------------------------------------------
+Codebook for Social Explorer report ID: R13728613
+--------------------------------------------------------------------------------
+
+Contents
+    - Table Summary
+    - Data Dictionary
+    - Citation and Use
+
+
+--------------------------------------------------------------------------------
+Table Summary
+--------------------------------------------------------------------------------
+ 
+Survey:           ACS 2022 (5-Year Estimates)
+Dataset:          American Community Survey 2022
+Tables:
+
+      1. School Enrollment By Detailed Level Of School For The Population 3 Years And Over
+         Universe:  Universe: Population 3 years and over
+         Name:      B14007
+         Variables:
+            B14007001:   Total:
+            B14007002:      Enrolled In School:
+            B14007003:         Enrolled In Nursery School, Preschool
+            B14007004:         Enrolled In Kindergarten
+            B14007005:         Enrolled In Grade 1
+            B14007006:         Enrolled In Grade 2
+            B14007007:         Enrolled In Grade 3
+            B14007008:         Enrolled In Grade 4
+            B14007009:         Enrolled In Grade 5
+            B14007010:         Enrolled In Grade 6
+            B14007011:         Enrolled In Grade 7
+            B14007012:         Enrolled In Grade 8
+            B14007013:         Enrolled In Grade 9
+            B14007014:         Enrolled In Grade 10
+            B14007015:         Enrolled In Grade 11
+            B14007016:         Enrolled In Grade 12
+            B14007017:         Enrolled In College, Undergraduate Years
+            B14007018:         Graduate Or Professional School
+            B14007019:      Not Enrolled In School
+
+
+      2. School Enrollment By Detailed Level Of School For The Population 3 Years And Over
+         Universe:  Universe: Population 3 years and over
+         Name:      B14007_se
+         Variables:
+            B14007001s:   Std. Error: Total:
+            B14007002s:      Std. Error: Enrolled In School:
+            B14007003s:         Std. Error: Enrolled In Nursery School, Preschool
+            B14007004s:         Std. Error: Enrolled In Kindergarten
+            B14007005s:         Std. Error: Enrolled In Grade 1
+            B14007006s:         Std. Error: Enrolled In Grade 2
+            B14007007s:         Std. Error: Enrolled In Grade 3
+            B14007008s:         Std. Error: Enrolled In Grade 4
+            B14007009s:         Std. Error: Enrolled In Grade 5
+            B14007010s:         Std. Error: Enrolled In Grade 6
+            B14007011s:         Std. Error: Enrolled In Grade 7
+            B14007012s:         Std. Error: Enrolled In Grade 8
+            B14007013s:         Std. Error: Enrolled In Grade 9
+            B14007014s:         Std. Error: Enrolled In Grade 10
+            B14007015s:         Std. Error: Enrolled In Grade 11
+            B14007016s:         Std. Error: Enrolled In Grade 12
+            B14007017s:         Std. Error: Enrolled In College, Undergraduate Years
+            B14007018s:         Std. Error: Graduate Or Professional School
+            B14007019s:      Std. Error: Not Enrolled In School
+
+
+      3. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (White Alone)
+         Universe:  Universe: White alone population 3 years and over
+         Name:      B14007A
+         Variables:
+            B14007A001:   Total:
+            B14007A002:      Enrolled In School:
+            B14007A003:         Enrolled In Nursery School, Preschool
+            B14007A004:         Enrolled In Kindergarten
+            B14007A005:         Enrolled In Grade 1
+            B14007A006:         Enrolled In Grade 2
+            B14007A007:         Enrolled In Grade 3
+            B14007A008:         Enrolled In Grade 4
+            B14007A009:         Enrolled In Grade 5
+            B14007A010:         Enrolled In Grade 6
+            B14007A011:         Enrolled In Grade 7
+            B14007A012:         Enrolled In Grade 8
+            B14007A013:         Enrolled In Grade 9
+            B14007A014:         Enrolled In Grade 10
+            B14007A015:         Enrolled In Grade 11
+            B14007A016:         Enrolled In Grade 12
+            B14007A017:         Enrolled In College, Undergraduate Years
+            B14007A018:         Graduate Or Professional School
+            B14007A019:      Not Enrolled In School
+
+
+      4. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (White Alone)
+         Universe:  Universe: White alone population 3 years and over
+         Name:      B14007A_se
+         Variables:
+            B14007A001s:   Std. Error: Total:
+            B14007A002s:      Std. Error: Enrolled In School:
+            B14007A003s:         Std. Error: Enrolled In Nursery School, Preschool
+            B14007A004s:         Std. Error: Enrolled In Kindergarten
+            B14007A005s:         Std. Error: Enrolled In Grade 1
+            B14007A006s:         Std. Error: Enrolled In Grade 2
+            B14007A007s:         Std. Error: Enrolled In Grade 3
+            B14007A008s:         Std. Error: Enrolled In Grade 4
+            B14007A009s:         Std. Error: Enrolled In Grade 5
+            B14007A010s:         Std. Error: Enrolled In Grade 6
+            B14007A011s:         Std. Error: Enrolled In Grade 7
+            B14007A012s:         Std. Error: Enrolled In Grade 8
+            B14007A013s:         Std. Error: Enrolled In Grade 9
+            B14007A014s:         Std. Error: Enrolled In Grade 10
+            B14007A015s:         Std. Error: Enrolled In Grade 11
+            B14007A016s:         Std. Error: Enrolled In Grade 12
+            B14007A017s:         Std. Error: Enrolled In College, Undergraduate Years
+            B14007A018s:         Std. Error: Graduate Or Professional School
+            B14007A019s:      Std. Error: Not Enrolled In School
+
+
+      5. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (Black Or African American Alone)
+         Universe:  Universe: Black or African American alone population 3 years and over
+         Name:      B14007B
+         Variables:
+            B14007B001:   Total:
+            B14007B002:      Enrolled In School:
+            B14007B003:         Enrolled In Nursery School, Preschool
+            B14007B004:         Enrolled In Kindergarten
+            B14007B005:         Enrolled In Grade 1
+            B14007B006:         Enrolled In Grade 2
+            B14007B007:         Enrolled In Grade 3
+            B14007B008:         Enrolled In Grade 4
+            B14007B009:         Enrolled In Grade 5
+            B14007B010:         Enrolled In Grade 6
+            B14007B011:         Enrolled In Grade 7
+            B14007B012:         Enrolled In Grade 8
+            B14007B013:         Enrolled In Grade 9
+            B14007B014:         Enrolled In Grade 10
+            B14007B015:         Enrolled In Grade 11
+            B14007B016:         Enrolled In Grade 12
+            B14007B017:         Enrolled In College, Undergraduate Years
+            B14007B018:         Graduate Or Professional School
+            B14007B019:      Not Enrolled In School
+
+
+      6. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (Black Or African American Alone)
+         Universe:  Universe: Black or African American alone population 3 years and over
+         Name:      B14007B_se
+         Variables:
+            B14007B001s:   Std. Error: Total:
+            B14007B002s:      Std. Error: Enrolled In School:
+            B14007B003s:         Std. Error: Enrolled In Nursery School, Preschool
+            B14007B004s:         Std. Error: Enrolled In Kindergarten
+            B14007B005s:         Std. Error: Enrolled In Grade 1
+            B14007B006s:         Std. Error: Enrolled In Grade 2
+            B14007B007s:         Std. Error: Enrolled In Grade 3
+            B14007B008s:         Std. Error: Enrolled In Grade 4
+            B14007B009s:         Std. Error: Enrolled In Grade 5
+            B14007B010s:         Std. Error: Enrolled In Grade 6
+            B14007B011s:         Std. Error: Enrolled In Grade 7
+            B14007B012s:         Std. Error: Enrolled In Grade 8
+            B14007B013s:         Std. Error: Enrolled In Grade 9
+            B14007B014s:         Std. Error: Enrolled In Grade 10
+            B14007B015s:         Std. Error: Enrolled In Grade 11
+            B14007B016s:         Std. Error: Enrolled In Grade 12
+            B14007B017s:         Std. Error: Enrolled In College, Undergraduate Years
+            B14007B018s:         Std. Error: Graduate Or Professional School
+            B14007B019s:      Std. Error: Not Enrolled In School
+
+
+      7. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (American Indian And Alaska Native Alone)
+         Universe:  Universe: American Indian and Alaska Native alone population 3 years and over
+         Name:      B14007C
+         Variables:
+            B14007C001:   Total:
+            B14007C002:      Enrolled In School:
+            B14007C003:         Enrolled In Nursery School, Preschool
+            B14007C004:         Enrolled In Kindergarten
+            B14007C005:         Enrolled In Grade 1
+            B14007C006:         Enrolled In Grade 2
+            B14007C007:         Enrolled In Grade 3
+            B14007C008:         Enrolled In Grade 4
+            B14007C009:         Enrolled In Grade 5
+            B14007C010:         Enrolled In Grade 6
+            B14007C011:         Enrolled In Grade 7
+            B14007C012:         Enrolled In Grade 8
+            B14007C013:         Enrolled In Grade 9
+            B14007C014:         Enrolled In Grade 10
+            B14007C015:         Enrolled In Grade 11
+            B14007C016:         Enrolled In Grade 12
+            B14007C017:         Enrolled In College, Undergraduate Years
+            B14007C018:         Graduate Or Professional School
+            B14007C019:      Not Enrolled In School
+
+
+      8. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (American Indian And Alaska Native Alone)
+         Universe:  Universe: American Indian and Alaska Native alone population 3 years and over
+         Name:      B14007C_se
+         Variables:
+            B14007C001s:   Std. Error: Total:
+            B14007C002s:      Std. Error: Enrolled In School:
+            B14007C003s:         Std. Error: Enrolled In Nursery School, Preschool
+            B14007C004s:         Std. Error: Enrolled In Kindergarten
+            B14007C005s:         Std. Error: Enrolled In Grade 1
+            B14007C006s:         Std. Error: Enrolled In Grade 2
+            B14007C007s:         Std. Error: Enrolled In Grade 3
+            B14007C008s:         Std. Error: Enrolled In Grade 4
+            B14007C009s:         Std. Error: Enrolled In Grade 5
+            B14007C010s:         Std. Error: Enrolled In Grade 6
+            B14007C011s:         Std. Error: Enrolled In Grade 7
+            B14007C012s:         Std. Error: Enrolled In Grade 8
+            B14007C013s:         Std. Error: Enrolled In Grade 9
+            B14007C014s:         Std. Error: Enrolled In Grade 10
+            B14007C015s:         Std. Error: Enrolled In Grade 11
+            B14007C016s:         Std. Error: Enrolled In Grade 12
+            B14007C017s:         Std. Error: Enrolled In College, Undergraduate Years
+            B14007C018s:         Std. Error: Graduate Or Professional School
+            B14007C019s:      Std. Error: Not Enrolled In School
+
+
+      9. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (Asian Alone)
+         Universe:  Universe: Asian alone population 3 years and over
+         Name:      B14007D
+         Variables:
+            B14007D001:   Total:
+            B14007D002:      Enrolled In School:
+            B14007D003:         Enrolled In Nursery School, Preschool
+            B14007D004:         Enrolled In Kindergarten
+            B14007D005:         Enrolled In Grade 1
+            B14007D006:         Enrolled In Grade 2
+            B14007D007:         Enrolled In Grade 3
+            B14007D008:         Enrolled In Grade 4
+            B14007D009:         Enrolled In Grade 5
+            B14007D010:         Enrolled In Grade 6
+            B14007D011:         Enrolled In Grade 7
+            B14007D012:         Enrolled In Grade 8
+            B14007D013:         Enrolled In Grade 9
+            B14007D014:         Enrolled In Grade 10
+            B14007D015:         Enrolled In Grade 11
+            B14007D016:         Enrolled In Grade 12
+            B14007D017:         Enrolled In College, Undergraduate Years
+            B14007D018:         Graduate Or Professional School
+            B14007D019:      Not Enrolled In School
+
+
+      10. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (Asian Alone)
+          Universe:  Universe: Asian alone population 3 years and over
+          Name:      B14007D_se
+          Variables:
+             B14007D001s:   Std. Error: Total:
+             B14007D002s:      Std. Error: Enrolled In School:
+             B14007D003s:         Std. Error: Enrolled In Nursery School, Preschool
+             B14007D004s:         Std. Error: Enrolled In Kindergarten
+             B14007D005s:         Std. Error: Enrolled In Grade 1
+             B14007D006s:         Std. Error: Enrolled In Grade 2
+             B14007D007s:         Std. Error: Enrolled In Grade 3
+             B14007D008s:         Std. Error: Enrolled In Grade 4
+             B14007D009s:         Std. Error: Enrolled In Grade 5
+             B14007D010s:         Std. Error: Enrolled In Grade 6
+             B14007D011s:         Std. Error: Enrolled In Grade 7
+             B14007D012s:         Std. Error: Enrolled In Grade 8
+             B14007D013s:         Std. Error: Enrolled In Grade 9
+             B14007D014s:         Std. Error: Enrolled In Grade 10
+             B14007D015s:         Std. Error: Enrolled In Grade 11
+             B14007D016s:         Std. Error: Enrolled In Grade 12
+             B14007D017s:         Std. Error: Enrolled In College, Undergraduate Years
+             B14007D018s:         Std. Error: Graduate Or Professional School
+             B14007D019s:      Std. Error: Not Enrolled In School
+
+
+      11. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (Native Hawaiian And Other Pacific Islander Alone)
+          Universe:  Universe: Native Hawaiian and Other Pacific Islander alone population 3 years and over
+          Name:      B14007E
+          Variables:
+             B14007E001:   Total:
+             B14007E002:      Enrolled In School:
+             B14007E003:         Enrolled In Nursery School, Preschool
+             B14007E004:         Enrolled In Kindergarten
+             B14007E005:         Enrolled In Grade 1
+             B14007E006:         Enrolled In Grade 2
+             B14007E007:         Enrolled In Grade 3
+             B14007E008:         Enrolled In Grade 4
+             B14007E009:         Enrolled In Grade 5
+             B14007E010:         Enrolled In Grade 6
+             B14007E011:         Enrolled In Grade 7
+             B14007E012:         Enrolled In Grade 8
+             B14007E013:         Enrolled In Grade 9
+             B14007E014:         Enrolled In Grade 10
+             B14007E015:         Enrolled In Grade 11
+             B14007E016:         Enrolled In Grade 12
+             B14007E017:         Enrolled In College, Undergraduate Years
+             B14007E018:         Graduate Or Professional School
+             B14007E019:      Not Enrolled In School
+
+
+      12. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (Native Hawaiian And Other Pacific Islander Alone)
+          Universe:  Universe: Native Hawaiian and Other Pacific Islander alone population 3 years and over
+          Name:      B14007E_se
+          Variables:
+             B14007E001s:   Std. Error: Total:
+             B14007E002s:      Std. Error: Enrolled In School:
+             B14007E003s:         Std. Error: Enrolled In Nursery School, Preschool
+             B14007E004s:         Std. Error: Enrolled In Kindergarten
+             B14007E005s:         Std. Error: Enrolled In Grade 1
+             B14007E006s:         Std. Error: Enrolled In Grade 2
+             B14007E007s:         Std. Error: Enrolled In Grade 3
+             B14007E008s:         Std. Error: Enrolled In Grade 4
+             B14007E009s:         Std. Error: Enrolled In Grade 5
+             B14007E010s:         Std. Error: Enrolled In Grade 6
+             B14007E011s:         Std. Error: Enrolled In Grade 7
+             B14007E012s:         Std. Error: Enrolled In Grade 8
+             B14007E013s:         Std. Error: Enrolled In Grade 9
+             B14007E014s:         Std. Error: Enrolled In Grade 10
+             B14007E015s:         Std. Error: Enrolled In Grade 11
+             B14007E016s:         Std. Error: Enrolled In Grade 12
+             B14007E017s:         Std. Error: Enrolled In College, Undergraduate Years
+             B14007E018s:         Std. Error: Graduate Or Professional School
+             B14007E019s:      Std. Error: Not Enrolled In School
+
+
+      13. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (Some Other Race Alone)
+          Universe:  Universe: Some other race alone population 3 years and over
+          Name:      B14007F
+          Variables:
+             B14007F001:   Total:
+             B14007F002:      Enrolled In School:
+             B14007F003:         Enrolled In Nursery School, Preschool
+             B14007F004:         Enrolled In Kindergarten
+             B14007F005:         Enrolled In Grade 1
+             B14007F006:         Enrolled In Grade 2
+             B14007F007:         Enrolled In Grade 3
+             B14007F008:         Enrolled In Grade 4
+             B14007F009:         Enrolled In Grade 5
+             B14007F010:         Enrolled In Grade 6
+             B14007F011:         Enrolled In Grade 7
+             B14007F012:         Enrolled In Grade 8
+             B14007F013:         Enrolled In Grade 9
+             B14007F014:         Enrolled In Grade 10
+             B14007F015:         Enrolled In Grade 11
+             B14007F016:         Enrolled In Grade 12
+             B14007F017:         Enrolled In College, Undergraduate Years
+             B14007F018:         Graduate Or Professional School
+             B14007F019:      Not Enrolled In School
+
+
+      14. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (Some Other Race Alone)
+          Universe:  Universe: Some other race alone population 3 years and over
+          Name:      B14007F_se
+          Variables:
+             B14007F001s:   Std. Error: Total:
+             B14007F002s:      Std. Error: Enrolled In School:
+             B14007F003s:         Std. Error: Enrolled In Nursery School, Preschool
+             B14007F004s:         Std. Error: Enrolled In Kindergarten
+             B14007F005s:         Std. Error: Enrolled In Grade 1
+             B14007F006s:         Std. Error: Enrolled In Grade 2
+             B14007F007s:         Std. Error: Enrolled In Grade 3
+             B14007F008s:         Std. Error: Enrolled In Grade 4
+             B14007F009s:         Std. Error: Enrolled In Grade 5
+             B14007F010s:         Std. Error: Enrolled In Grade 6
+             B14007F011s:         Std. Error: Enrolled In Grade 7
+             B14007F012s:         Std. Error: Enrolled In Grade 8
+             B14007F013s:         Std. Error: Enrolled In Grade 9
+             B14007F014s:         Std. Error: Enrolled In Grade 10
+             B14007F015s:         Std. Error: Enrolled In Grade 11
+             B14007F016s:         Std. Error: Enrolled In Grade 12
+             B14007F017s:         Std. Error: Enrolled In College, Undergraduate Years
+             B14007F018s:         Std. Error: Graduate Or Professional School
+             B14007F019s:      Std. Error: Not Enrolled In School
+
+
+      15. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (Two Or More Races)
+          Universe:  Universe: Two or more races population 3 years and over
+          Name:      B14007G
+          Variables:
+             B14007G001:   Total:
+             B14007G002:      Enrolled In School:
+             B14007G003:         Enrolled In Nursery School, Preschool
+             B14007G004:         Enrolled In Kindergarten
+             B14007G005:         Enrolled In Grade 1
+             B14007G006:         Enrolled In Grade 2
+             B14007G007:         Enrolled In Grade 3
+             B14007G008:         Enrolled In Grade 4
+             B14007G009:         Enrolled In Grade 5
+             B14007G010:         Enrolled In Grade 6
+             B14007G011:         Enrolled In Grade 7
+             B14007G012:         Enrolled In Grade 8
+             B14007G013:         Enrolled In Grade 9
+             B14007G014:         Enrolled In Grade 10
+             B14007G015:         Enrolled In Grade 11
+             B14007G016:         Enrolled In Grade 12
+             B14007G017:         Enrolled In College, Undergraduate Years
+             B14007G018:         Graduate Or Professional School
+             B14007G019:      Not Enrolled In School
+
+
+      16. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (Two Or More Races)
+          Universe:  Universe: Two or more races population 3 years and over
+          Name:      B14007G_se
+          Variables:
+             B14007G001s:   Std. Error: Total:
+             B14007G002s:      Std. Error: Enrolled In School:
+             B14007G003s:         Std. Error: Enrolled In Nursery School, Preschool
+             B14007G004s:         Std. Error: Enrolled In Kindergarten
+             B14007G005s:         Std. Error: Enrolled In Grade 1
+             B14007G006s:         Std. Error: Enrolled In Grade 2
+             B14007G007s:         Std. Error: Enrolled In Grade 3
+             B14007G008s:         Std. Error: Enrolled In Grade 4
+             B14007G009s:         Std. Error: Enrolled In Grade 5
+             B14007G010s:         Std. Error: Enrolled In Grade 6
+             B14007G011s:         Std. Error: Enrolled In Grade 7
+             B14007G012s:         Std. Error: Enrolled In Grade 8
+             B14007G013s:         Std. Error: Enrolled In Grade 9
+             B14007G014s:         Std. Error: Enrolled In Grade 10
+             B14007G015s:         Std. Error: Enrolled In Grade 11
+             B14007G016s:         Std. Error: Enrolled In Grade 12
+             B14007G017s:         Std. Error: Enrolled In College, Undergraduate Years
+             B14007G018s:         Std. Error: Graduate Or Professional School
+             B14007G019s:      Std. Error: Not Enrolled In School
+
+
+      17. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (White Alone, Not Hispanic Or Latino)
+          Universe:  Universe: White alone, not Hispanic or Latino, population 3 years and over
+          Name:      B14007H
+          Variables:
+             B14007H001:   Total:
+             B14007H002:      Enrolled In School:
+             B14007H003:         Enrolled In Nursery School, Preschool
+             B14007H004:         Enrolled In Kindergarten
+             B14007H005:         Enrolled In Grade 1
+             B14007H006:         Enrolled In Grade 2
+             B14007H007:         Enrolled In Grade 3
+             B14007H008:         Enrolled In Grade 4
+             B14007H009:         Enrolled In Grade 5
+             B14007H010:         Enrolled In Grade 6
+             B14007H011:         Enrolled In Grade 7
+             B14007H012:         Enrolled In Grade 8
+             B14007H013:         Enrolled In Grade 9
+             B14007H014:         Enrolled In Grade 10
+             B14007H015:         Enrolled In Grade 11
+             B14007H016:         Enrolled In Grade 12
+             B14007H017:         Enrolled In College, Undergraduate Years
+             B14007H018:         Graduate Or Professional School
+             B14007H019:      Not Enrolled In School
+
+
+      18. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (White Alone, Not Hispanic Or Latino)
+          Universe:  Universe: White alone, not Hispanic or Latino, population 3 years and over
+          Name:      B14007H_se
+          Variables:
+             B14007H001s:   Std. Error: Total:
+             B14007H002s:      Std. Error: Enrolled In School:
+             B14007H003s:         Std. Error: Enrolled In Nursery School, Preschool
+             B14007H004s:         Std. Error: Enrolled In Kindergarten
+             B14007H005s:         Std. Error: Enrolled In Grade 1
+             B14007H006s:         Std. Error: Enrolled In Grade 2
+             B14007H007s:         Std. Error: Enrolled In Grade 3
+             B14007H008s:         Std. Error: Enrolled In Grade 4
+             B14007H009s:         Std. Error: Enrolled In Grade 5
+             B14007H010s:         Std. Error: Enrolled In Grade 6
+             B14007H011s:         Std. Error: Enrolled In Grade 7
+             B14007H012s:         Std. Error: Enrolled In Grade 8
+             B14007H013s:         Std. Error: Enrolled In Grade 9
+             B14007H014s:         Std. Error: Enrolled In Grade 10
+             B14007H015s:         Std. Error: Enrolled In Grade 11
+             B14007H016s:         Std. Error: Enrolled In Grade 12
+             B14007H017s:         Std. Error: Enrolled In College, Undergraduate Years
+             B14007H018s:         Std. Error: Graduate Or Professional School
+             B14007H019s:      Std. Error: Not Enrolled In School
+
+
+      19. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (Hispanic Or Latino)
+          Universe:  Universe: Hispanic or Latino population 3 years and over
+          Name:      B14007I
+          Variables:
+             B14007I001:   Total:
+             B14007I002:      Enrolled In School:
+             B14007I003:         Enrolled In Nursery School, Preschool
+             B14007I004:         Enrolled In Kindergarten
+             B14007I005:         Enrolled In Grade 1
+             B14007I006:         Enrolled In Grade 2
+             B14007I007:         Enrolled In Grade 3
+             B14007I008:         Enrolled In Grade 4
+             B14007I009:         Enrolled In Grade 5
+             B14007I010:         Enrolled In Grade 6
+             B14007I011:         Enrolled In Grade 7
+             B14007I012:         Enrolled In Grade 8
+             B14007I013:         Enrolled In Grade 9
+             B14007I014:         Enrolled In Grade 10
+             B14007I015:         Enrolled In Grade 11
+             B14007I016:         Enrolled In Grade 12
+             B14007I017:         Enrolled In College, Undergraduate Years
+             B14007I018:         Graduate Or Professional School
+             B14007I019:      Not Enrolled In School
+
+
+      20. School Enrollment By Detailed Level Of School For The Population 3 Years And Over (Hispanic Or Latino)
+          Universe:  Universe: Hispanic or Latino population 3 years and over
+          Name:      B14007I_se
+          Variables:
+             B14007I001s:   Std. Error: Total:
+             B14007I002s:      Std. Error: Enrolled In School:
+             B14007I003s:         Std. Error: Enrolled In Nursery School, Preschool
+             B14007I004s:         Std. Error: Enrolled In Kindergarten
+             B14007I005s:         Std. Error: Enrolled In Grade 1
+             B14007I006s:         Std. Error: Enrolled In Grade 2
+             B14007I007s:         Std. Error: Enrolled In Grade 3
+             B14007I008s:         Std. Error: Enrolled In Grade 4
+             B14007I009s:         Std. Error: Enrolled In Grade 5
+             B14007I010s:         Std. Error: Enrolled In Grade 6
+             B14007I011s:         Std. Error: Enrolled In Grade 7
+             B14007I012s:         Std. Error: Enrolled In Grade 8
+             B14007I013s:         Std. Error: Enrolled In Grade 9
+             B14007I014s:         Std. Error: Enrolled In Grade 10
+             B14007I015s:         Std. Error: Enrolled In Grade 11
+             B14007I016s:         Std. Error: Enrolled In Grade 12
+             B14007I017s:         Std. Error: Enrolled In College, Undergraduate Years
+             B14007I018s:         Std. Error: Graduate Or Professional School
+             B14007I019s:      Std. Error: Not Enrolled In School
+
+
+
+
+
+ 
+ 
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Variables 
+      FIPS:           FIPS
+      QName:          Qualifying Name
+      STUSAB:         State Postal Abbreviation
+      SUMLEV:         Summary Level
+      GEOCOMP:        Geographic Component
+      US:             US
+      REGION:         Census Region
+      DIVISION:       Census Division
+      STATE:          State (FIPS Code)
+      COUNTY:         County of current residence
+      COUSUB:         County Subdivision (FIPS)
+      PLACE:          Place (FIPS Code)
+      TRACT:          Census Tract
+      BLKGRP:         Block Group
+      CONCIT:         Consolidated City
+      AIANHH:         American Indian Area/Alaska Native Area/ Hawaiian Home Land (Census)
+      AIANHHFP:       American Indian Area/Alaska Native Area/ Hawaiian Home Land (FIPS)
+      AIHHTLI:        American Indian Trust Land/Hawaiian Home Land Indicator
+      AITS:           American Indian Tribal Subdivision (FIPS)
+      ANRC:           Alaska Native Regional Corporation (FIPS)
+      CBSA:           Metropolitan and Micropolitan Statistical Area
+      CSA:            Combined Statistical Area
+      METDIV:         Metropolitan Statistical Area-Metropolitan Division
+      MACC:           Metropolitan Area Central City
+      MEMI:           Metropolitan/Micropolitan Indicator Flag
+      NECTA:          New England City and Town Area
+      CNECTA:         New England City and Town Combined Statistical Area
+      NECTADIV:       New England City and Town Area Division
+      UA:             Urban Area
+      CDCURR:         Current Congressional District ***
+      SLDU:           State Legislative District Upper
+      SLDL:           State Legislative District Lower
+      ZCTA3:          ZIP Code Tabulation Area (3-digit)
+      ZCTA5:          5-digit ZIP Code Tabulation Area
+      SUBMCD:         Subminor Civil Division (FIPS)
+      SDELM:          State-School District (Elementary)
+      SDSEC:          State-School District (Secondary)
+      SDUNI:          State-School District (Unified)
+      UR:             Urban/Rural
+      PCI:            Principal City Indicator
+      PUMA5:          Public Use Microdata Area – 5% File
+      NAME:           Area Name
+      BTTR:           Tribal Tract
+      BTBG:           Tribal Block Group
+      PLACESE:        Place (State FIPS + Place FIPS)
+      B14007001:      Total
+      B14007002:      Total: Enrolled In School
+      B14007003:      Total: Enrolled In School: Enrolled In Nursery School, Preschool
+      B14007004:      Total: Enrolled In School: Enrolled In Kindergarten
+      B14007005:      Total: Enrolled In School: Enrolled In Grade 1
+      B14007006:      Total: Enrolled In School: Enrolled In Grade 2
+      B14007007:      Total: Enrolled In School: Enrolled In Grade 3
+      B14007008:      Total: Enrolled In School: Enrolled In Grade 4
+      B14007009:      Total: Enrolled In School: Enrolled In Grade 5
+      B14007010:      Total: Enrolled In School: Enrolled In Grade 6
+      B14007011:      Total: Enrolled In School: Enrolled In Grade 7
+      B14007012:      Total: Enrolled In School: Enrolled In Grade 8
+      B14007013:      Total: Enrolled In School: Enrolled In Grade 9
+      B14007014:      Total: Enrolled In School: Enrolled In Grade 10
+      B14007015:      Total: Enrolled In School: Enrolled In Grade 11
+      B14007016:      Total: Enrolled In School: Enrolled In Grade 12
+      B14007017:      Total: Enrolled In School: Enrolled In College, Undergraduate Years
+      B14007018:      Total: Enrolled In School: Graduate Or Professional School
+      B14007019:      Total: Not Enrolled In School
+      B14007001s:     Std. Error: Total
+      B14007002s:     Std. Error: Total: Enrolled In School
+      B14007003s:     Std. Error: Total: Enrolled In School: Enrolled In Nursery School Preschool
+      B14007004s:     Std. Error: Total: Enrolled In School: Enrolled In Kindergarten
+      B14007005s:     Std. Error: Total: Enrolled In School: Enrolled In Grade 1
+      B14007006s:     Std. Error: Total: Enrolled In School: Enrolled In Grade 2
+      B14007007s:     Std. Error: Total: Enrolled In School: Enrolled In Grade 3
+      B14007008s:     Std. Error: Total: Enrolled In School: Enrolled In Grade 4
+      B14007009s:     Std. Error: Total: Enrolled In School: Enrolled In Grade 5
+      B14007010s:     Std. Error: Total: Enrolled In School: Enrolled In Grade 6
+      B14007011s:     Std. Error: Total: Enrolled In School: Enrolled In Grade 7
+      B14007012s:     Std. Error: Total: Enrolled In School: Enrolled In Grade 8
+      B14007013s:     Std. Error: Total: Enrolled In School: Enrolled In Grade 9
+      B14007014s:     Std. Error: Total: Enrolled In School: Enrolled In Grade 10
+      B14007015s:     Std. Error: Total: Enrolled In School: Enrolled In Grade 11
+      B14007016s:     Std. Error: Total: Enrolled In School: Enrolled In Grade 12
+      B14007017s:     Std. Error: Total: Enrolled In School: Enrolled In College Undergraduate Years
+      B14007018s:     Std. Error: Total: Enrolled In School: Graduate Or Professional School
+      B14007019s:     Std. Error: Total: Not Enrolled In School
+      B14007A001:     Total
+      B14007A002:     Total: Enrolled In School
+      B14007A003:     Total: Enrolled In School: Enrolled In Nursery School, Preschool
+      B14007A004:     Total: Enrolled In School: Enrolled In Kindergarten
+      B14007A005:     Total: Enrolled In School: Enrolled In Grade 1
+      B14007A006:     Total: Enrolled In School: Enrolled In Grade 2
+      B14007A007:     Total: Enrolled In School: Enrolled In Grade 3
+      B14007A008:     Total: Enrolled In School: Enrolled In Grade 4
+      B14007A009:     Total: Enrolled In School: Enrolled In Grade 5
+      B14007A010:     Total: Enrolled In School: Enrolled In Grade 6
+      B14007A011:     Total: Enrolled In School: Enrolled In Grade 7
+      B14007A012:     Total: Enrolled In School: Enrolled In Grade 8
+      B14007A013:     Total: Enrolled In School: Enrolled In Grade 9
+      B14007A014:     Total: Enrolled In School: Enrolled In Grade 10
+      B14007A015:     Total: Enrolled In School: Enrolled In Grade 11
+      B14007A016:     Total: Enrolled In School: Enrolled In Grade 12
+      B14007A017:     Total: Enrolled In School: Enrolled In College, Undergraduate Years
+      B14007A018:     Total: Enrolled In School: Graduate Or Professional School
+      B14007A019:     Total: Not Enrolled In School
+      B14007A001s:    Std. Error: Total
+      B14007A002s:    Std. Error: Total: Enrolled In School
+      B14007A003s:    Std. Error: Total: Enrolled In School: Enrolled In Nursery School Preschool
+      B14007A004s:    Std. Error: Total: Enrolled In School: Enrolled In Kindergarten
+      B14007A005s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 1
+      B14007A006s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 2
+      B14007A007s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 3
+      B14007A008s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 4
+      B14007A009s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 5
+      B14007A010s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 6
+      B14007A011s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 7
+      B14007A012s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 8
+      B14007A013s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 9
+      B14007A014s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 10
+      B14007A015s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 11
+      B14007A016s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 12
+      B14007A017s:    Std. Error: Total: Enrolled In School: Enrolled In College Undergraduate Years
+      B14007A018s:    Std. Error: Total: Enrolled In School: Graduate Or Professional School
+      B14007A019s:    Std. Error: Total: Not Enrolled In School
+      B14007B001:     Total
+      B14007B002:     Total: Enrolled In School
+      B14007B003:     Total: Enrolled In School: Enrolled In Nursery School, Preschool
+      B14007B004:     Total: Enrolled In School: Enrolled In Kindergarten
+      B14007B005:     Total: Enrolled In School: Enrolled In Grade 1
+      B14007B006:     Total: Enrolled In School: Enrolled In Grade 2
+      B14007B007:     Total: Enrolled In School: Enrolled In Grade 3
+      B14007B008:     Total: Enrolled In School: Enrolled In Grade 4
+      B14007B009:     Total: Enrolled In School: Enrolled In Grade 5
+      B14007B010:     Total: Enrolled In School: Enrolled In Grade 6
+      B14007B011:     Total: Enrolled In School: Enrolled In Grade 7
+      B14007B012:     Total: Enrolled In School: Enrolled In Grade 8
+      B14007B013:     Total: Enrolled In School: Enrolled In Grade 9
+      B14007B014:     Total: Enrolled In School: Enrolled In Grade 10
+      B14007B015:     Total: Enrolled In School: Enrolled In Grade 11
+      B14007B016:     Total: Enrolled In School: Enrolled In Grade 12
+      B14007B017:     Total: Enrolled In School: Enrolled In College, Undergraduate Years
+      B14007B018:     Total: Enrolled In School: Graduate Or Professional School
+      B14007B019:     Total: Not Enrolled In School
+      B14007B001s:    Std. Error: Total
+      B14007B002s:    Std. Error: Total: Enrolled In School
+      B14007B003s:    Std. Error: Total: Enrolled In School: Enrolled In Nursery School Preschool
+      B14007B004s:    Std. Error: Total: Enrolled In School: Enrolled In Kindergarten
+      B14007B005s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 1
+      B14007B006s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 2
+      B14007B007s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 3
+      B14007B008s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 4
+      B14007B009s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 5
+      B14007B010s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 6
+      B14007B011s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 7
+      B14007B012s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 8
+      B14007B013s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 9
+      B14007B014s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 10
+      B14007B015s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 11
+      B14007B016s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 12
+      B14007B017s:    Std. Error: Total: Enrolled In School: Enrolled In College Undergraduate Years
+      B14007B018s:    Std. Error: Total: Enrolled In School: Graduate Or Professional School
+      B14007B019s:    Std. Error: Total: Not Enrolled In School
+      B14007C001:     Total
+      B14007C002:     Total: Enrolled In School
+      B14007C003:     Total: Enrolled In School: Enrolled In Nursery School, Preschool
+      B14007C004:     Total: Enrolled In School: Enrolled In Kindergarten
+      B14007C005:     Total: Enrolled In School: Enrolled In Grade 1
+      B14007C006:     Total: Enrolled In School: Enrolled In Grade 2
+      B14007C007:     Total: Enrolled In School: Enrolled In Grade 3
+      B14007C008:     Total: Enrolled In School: Enrolled In Grade 4
+      B14007C009:     Total: Enrolled In School: Enrolled In Grade 5
+      B14007C010:     Total: Enrolled In School: Enrolled In Grade 6
+      B14007C011:     Total: Enrolled In School: Enrolled In Grade 7
+      B14007C012:     Total: Enrolled In School: Enrolled In Grade 8
+      B14007C013:     Total: Enrolled In School: Enrolled In Grade 9
+      B14007C014:     Total: Enrolled In School: Enrolled In Grade 10
+      B14007C015:     Total: Enrolled In School: Enrolled In Grade 11
+      B14007C016:     Total: Enrolled In School: Enrolled In Grade 12
+      B14007C017:     Total: Enrolled In School: Enrolled In College, Undergraduate Years
+      B14007C018:     Total: Enrolled In School: Graduate Or Professional School
+      B14007C019:     Total: Not Enrolled In School
+      B14007C001s:    Std. Error: Total
+      B14007C002s:    Std. Error: Total: Enrolled In School
+      B14007C003s:    Std. Error: Total: Enrolled In School: Enrolled In Nursery School Preschool
+      B14007C004s:    Std. Error: Total: Enrolled In School: Enrolled In Kindergarten
+      B14007C005s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 1
+      B14007C006s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 2
+      B14007C007s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 3
+      B14007C008s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 4
+      B14007C009s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 5
+      B14007C010s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 6
+      B14007C011s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 7
+      B14007C012s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 8
+      B14007C013s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 9
+      B14007C014s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 10
+      B14007C015s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 11
+      B14007C016s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 12
+      B14007C017s:    Std. Error: Total: Enrolled In School: Enrolled In College Undergraduate Years
+      B14007C018s:    Std. Error: Total: Enrolled In School: Graduate Or Professional School
+      B14007C019s:    Std. Error: Total: Not Enrolled In School
+      B14007D001:     Total
+      B14007D002:     Total: Enrolled In School
+      B14007D003:     Total: Enrolled In School: Enrolled In Nursery School, Preschool
+      B14007D004:     Total: Enrolled In School: Enrolled In Kindergarten
+      B14007D005:     Total: Enrolled In School: Enrolled In Grade 1
+      B14007D006:     Total: Enrolled In School: Enrolled In Grade 2
+      B14007D007:     Total: Enrolled In School: Enrolled In Grade 3
+      B14007D008:     Total: Enrolled In School: Enrolled In Grade 4
+      B14007D009:     Total: Enrolled In School: Enrolled In Grade 5
+      B14007D010:     Total: Enrolled In School: Enrolled In Grade 6
+      B14007D011:     Total: Enrolled In School: Enrolled In Grade 7
+      B14007D012:     Total: Enrolled In School: Enrolled In Grade 8
+      B14007D013:     Total: Enrolled In School: Enrolled In Grade 9
+      B14007D014:     Total: Enrolled In School: Enrolled In Grade 10
+      B14007D015:     Total: Enrolled In School: Enrolled In Grade 11
+      B14007D016:     Total: Enrolled In School: Enrolled In Grade 12
+      B14007D017:     Total: Enrolled In School: Enrolled In College, Undergraduate Years
+      B14007D018:     Total: Enrolled In School: Graduate Or Professional School
+      B14007D019:     Total: Not Enrolled In School
+      B14007D001s:    Std. Error: Total
+      B14007D002s:    Std. Error: Total: Enrolled In School
+      B14007D003s:    Std. Error: Total: Enrolled In School: Enrolled In Nursery School Preschool
+      B14007D004s:    Std. Error: Total: Enrolled In School: Enrolled In Kindergarten
+      B14007D005s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 1
+      B14007D006s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 2
+      B14007D007s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 3
+      B14007D008s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 4
+      B14007D009s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 5
+      B14007D010s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 6
+      B14007D011s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 7
+      B14007D012s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 8
+      B14007D013s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 9
+      B14007D014s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 10
+      B14007D015s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 11
+      B14007D016s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 12
+      B14007D017s:    Std. Error: Total: Enrolled In School: Enrolled In College Undergraduate Years
+      B14007D018s:    Std. Error: Total: Enrolled In School: Graduate Or Professional School
+      B14007D019s:    Std. Error: Total: Not Enrolled In School
+      B14007E001:     Total
+      B14007E002:     Total: Enrolled In School
+      B14007E003:     Total: Enrolled In School: Enrolled In Nursery School, Preschool
+      B14007E004:     Total: Enrolled In School: Enrolled In Kindergarten
+      B14007E005:     Total: Enrolled In School: Enrolled In Grade 1
+      B14007E006:     Total: Enrolled In School: Enrolled In Grade 2
+      B14007E007:     Total: Enrolled In School: Enrolled In Grade 3
+      B14007E008:     Total: Enrolled In School: Enrolled In Grade 4
+      B14007E009:     Total: Enrolled In School: Enrolled In Grade 5
+      B14007E010:     Total: Enrolled In School: Enrolled In Grade 6
+      B14007E011:     Total: Enrolled In School: Enrolled In Grade 7
+      B14007E012:     Total: Enrolled In School: Enrolled In Grade 8
+      B14007E013:     Total: Enrolled In School: Enrolled In Grade 9
+      B14007E014:     Total: Enrolled In School: Enrolled In Grade 10
+      B14007E015:     Total: Enrolled In School: Enrolled In Grade 11
+      B14007E016:     Total: Enrolled In School: Enrolled In Grade 12
+      B14007E017:     Total: Enrolled In School: Enrolled In College, Undergraduate Years
+      B14007E018:     Total: Enrolled In School: Graduate Or Professional School
+      B14007E019:     Total: Not Enrolled In School
+      B14007E001s:    Std. Error: Total
+      B14007E002s:    Std. Error: Total: Enrolled In School
+      B14007E003s:    Std. Error: Total: Enrolled In School: Enrolled In Nursery School Preschool
+      B14007E004s:    Std. Error: Total: Enrolled In School: Enrolled In Kindergarten
+      B14007E005s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 1
+      B14007E006s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 2
+      B14007E007s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 3
+      B14007E008s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 4
+      B14007E009s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 5
+      B14007E010s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 6
+      B14007E011s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 7
+      B14007E012s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 8
+      B14007E013s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 9
+      B14007E014s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 10
+      B14007E015s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 11
+      B14007E016s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 12
+      B14007E017s:    Std. Error: Total: Enrolled In School: Enrolled In College Undergraduate Years
+      B14007E018s:    Std. Error: Total: Enrolled In School: Graduate Or Professional School
+      B14007E019s:    Std. Error: Total: Not Enrolled In School
+      B14007F001:     Total
+      B14007F002:     Total: Enrolled In School
+      B14007F003:     Total: Enrolled In School: Enrolled In Nursery School, Preschool
+      B14007F004:     Total: Enrolled In School: Enrolled In Kindergarten
+      B14007F005:     Total: Enrolled In School: Enrolled In Grade 1
+      B14007F006:     Total: Enrolled In School: Enrolled In Grade 2
+      B14007F007:     Total: Enrolled In School: Enrolled In Grade 3
+      B14007F008:     Total: Enrolled In School: Enrolled In Grade 4
+      B14007F009:     Total: Enrolled In School: Enrolled In Grade 5
+      B14007F010:     Total: Enrolled In School: Enrolled In Grade 6
+      B14007F011:     Total: Enrolled In School: Enrolled In Grade 7
+      B14007F012:     Total: Enrolled In School: Enrolled In Grade 8
+      B14007F013:     Total: Enrolled In School: Enrolled In Grade 9
+      B14007F014:     Total: Enrolled In School: Enrolled In Grade 10
+      B14007F015:     Total: Enrolled In School: Enrolled In Grade 11
+      B14007F016:     Total: Enrolled In School: Enrolled In Grade 12
+      B14007F017:     Total: Enrolled In School: Enrolled In College, Undergraduate Years
+      B14007F018:     Total: Enrolled In School: Graduate Or Professional School
+      B14007F019:     Total: Not Enrolled In School
+      B14007F001s:    Std. Error: Total
+      B14007F002s:    Std. Error: Total: Enrolled In School
+      B14007F003s:    Std. Error: Total: Enrolled In School: Enrolled In Nursery School Preschool
+      B14007F004s:    Std. Error: Total: Enrolled In School: Enrolled In Kindergarten
+      B14007F005s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 1
+      B14007F006s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 2
+      B14007F007s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 3
+      B14007F008s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 4
+      B14007F009s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 5
+      B14007F010s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 6
+      B14007F011s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 7
+      B14007F012s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 8
+      B14007F013s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 9
+      B14007F014s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 10
+      B14007F015s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 11
+      B14007F016s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 12
+      B14007F017s:    Std. Error: Total: Enrolled In School: Enrolled In College Undergraduate Years
+      B14007F018s:    Std. Error: Total: Enrolled In School: Graduate Or Professional School
+      B14007F019s:    Std. Error: Total: Not Enrolled In School
+      B14007G001:     Total
+      B14007G002:     Total: Enrolled In School
+      B14007G003:     Total: Enrolled In School: Enrolled In Nursery School, Preschool
+      B14007G004:     Total: Enrolled In School: Enrolled In Kindergarten
+      B14007G005:     Total: Enrolled In School: Enrolled In Grade 1
+      B14007G006:     Total: Enrolled In School: Enrolled In Grade 2
+      B14007G007:     Total: Enrolled In School: Enrolled In Grade 3
+      B14007G008:     Total: Enrolled In School: Enrolled In Grade 4
+      B14007G009:     Total: Enrolled In School: Enrolled In Grade 5
+      B14007G010:     Total: Enrolled In School: Enrolled In Grade 6
+      B14007G011:     Total: Enrolled In School: Enrolled In Grade 7
+      B14007G012:     Total: Enrolled In School: Enrolled In Grade 8
+      B14007G013:     Total: Enrolled In School: Enrolled In Grade 9
+      B14007G014:     Total: Enrolled In School: Enrolled In Grade 10
+      B14007G015:     Total: Enrolled In School: Enrolled In Grade 11
+      B14007G016:     Total: Enrolled In School: Enrolled In Grade 12
+      B14007G017:     Total: Enrolled In School: Enrolled In College, Undergraduate Years
+      B14007G018:     Total: Enrolled In School: Graduate Or Professional School
+      B14007G019:     Total: Not Enrolled In School
+      B14007G001s:    Std. Error: Total
+      B14007G002s:    Std. Error: Total: Enrolled In School
+      B14007G003s:    Std. Error: Total: Enrolled In School: Enrolled In Nursery School Preschool
+      B14007G004s:    Std. Error: Total: Enrolled In School: Enrolled In Kindergarten
+      B14007G005s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 1
+      B14007G006s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 2
+      B14007G007s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 3
+      B14007G008s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 4
+      B14007G009s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 5
+      B14007G010s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 6
+      B14007G011s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 7
+      B14007G012s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 8
+      B14007G013s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 9
+      B14007G014s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 10
+      B14007G015s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 11
+      B14007G016s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 12
+      B14007G017s:    Std. Error: Total: Enrolled In School: Enrolled In College Undergraduate Years
+      B14007G018s:    Std. Error: Total: Enrolled In School: Graduate Or Professional School
+      B14007G019s:    Std. Error: Total: Not Enrolled In School
+      B14007H001:     Total
+      B14007H002:     Total: Enrolled In School
+      B14007H003:     Total: Enrolled In School: Enrolled In Nursery School, Preschool
+      B14007H004:     Total: Enrolled In School: Enrolled In Kindergarten
+      B14007H005:     Total: Enrolled In School: Enrolled In Grade 1
+      B14007H006:     Total: Enrolled In School: Enrolled In Grade 2
+      B14007H007:     Total: Enrolled In School: Enrolled In Grade 3
+      B14007H008:     Total: Enrolled In School: Enrolled In Grade 4
+      B14007H009:     Total: Enrolled In School: Enrolled In Grade 5
+      B14007H010:     Total: Enrolled In School: Enrolled In Grade 6
+      B14007H011:     Total: Enrolled In School: Enrolled In Grade 7
+      B14007H012:     Total: Enrolled In School: Enrolled In Grade 8
+      B14007H013:     Total: Enrolled In School: Enrolled In Grade 9
+      B14007H014:     Total: Enrolled In School: Enrolled In Grade 10
+      B14007H015:     Total: Enrolled In School: Enrolled In Grade 11
+      B14007H016:     Total: Enrolled In School: Enrolled In Grade 12
+      B14007H017:     Total: Enrolled In School: Enrolled In College, Undergraduate Years
+      B14007H018:     Total: Enrolled In School: Graduate Or Professional School
+      B14007H019:     Total: Not Enrolled In School
+      B14007H001s:    Std. Error: Total
+      B14007H002s:    Std. Error: Total: Enrolled In School
+      B14007H003s:    Std. Error: Total: Enrolled In School: Enrolled In Nursery School Preschool
+      B14007H004s:    Std. Error: Total: Enrolled In School: Enrolled In Kindergarten
+      B14007H005s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 1
+      B14007H006s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 2
+      B14007H007s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 3
+      B14007H008s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 4
+      B14007H009s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 5
+      B14007H010s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 6
+      B14007H011s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 7
+      B14007H012s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 8
+      B14007H013s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 9
+      B14007H014s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 10
+      B14007H015s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 11
+      B14007H016s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 12
+      B14007H017s:    Std. Error: Total: Enrolled In School: Enrolled In College Undergraduate Years
+      B14007H018s:    Std. Error: Total: Enrolled In School: Graduate Or Professional School
+      B14007H019s:    Std. Error: Total: Not Enrolled In School
+      B14007I001:     Total
+      B14007I002:     Total: Enrolled In School
+      B14007I003:     Total: Enrolled In School: Enrolled In Nursery School, Preschool
+      B14007I004:     Total: Enrolled In School: Enrolled In Kindergarten
+      B14007I005:     Total: Enrolled In School: Enrolled In Grade 1
+      B14007I006:     Total: Enrolled In School: Enrolled In Grade 2
+      B14007I007:     Total: Enrolled In School: Enrolled In Grade 3
+      B14007I008:     Total: Enrolled In School: Enrolled In Grade 4
+      B14007I009:     Total: Enrolled In School: Enrolled In Grade 5
+      B14007I010:     Total: Enrolled In School: Enrolled In Grade 6
+      B14007I011:     Total: Enrolled In School: Enrolled In Grade 7
+      B14007I012:     Total: Enrolled In School: Enrolled In Grade 8
+      B14007I013:     Total: Enrolled In School: Enrolled In Grade 9
+      B14007I014:     Total: Enrolled In School: Enrolled In Grade 10
+      B14007I015:     Total: Enrolled In School: Enrolled In Grade 11
+      B14007I016:     Total: Enrolled In School: Enrolled In Grade 12
+      B14007I017:     Total: Enrolled In School: Enrolled In College, Undergraduate Years
+      B14007I018:     Total: Enrolled In School: Graduate Or Professional School
+      B14007I019:     Total: Not Enrolled In School
+      B14007I001s:    Std. Error: Total
+      B14007I002s:    Std. Error: Total: Enrolled In School
+      B14007I003s:    Std. Error: Total: Enrolled In School: Enrolled In Nursery School Preschool
+      B14007I004s:    Std. Error: Total: Enrolled In School: Enrolled In Kindergarten
+      B14007I005s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 1
+      B14007I006s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 2
+      B14007I007s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 3
+      B14007I008s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 4
+      B14007I009s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 5
+      B14007I010s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 6
+      B14007I011s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 7
+      B14007I012s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 8
+      B14007I013s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 9
+      B14007I014s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 10
+      B14007I015s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 11
+      B14007I016s:    Std. Error: Total: Enrolled In School: Enrolled In Grade 12
+      B14007I017s:    Std. Error: Total: Enrolled In School: Enrolled In College Undergraduate Years
+      B14007I018s:    Std. Error: Total: Enrolled In School: Graduate Or Professional School
+      B14007I019s:    Std. Error: Total: Not Enrolled In School
+
+
+
+
+--------------------------------------------------------------------------------
+Citation and Use of Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* Publications and research reports employing the data
+  must cite it appropriately. The citation should include the following:
+
+	  www.socialexplorer.com
+	  New York City, NY: Social Explorer 2024
+
+
+* Citations should also include the URL for this report:
+
+    http://www.socialexplorer.com/pub/reportdata/HtmlResults.aspx?reportid=R13728613
+
+If you have any questions contact info@socialexplorer.com

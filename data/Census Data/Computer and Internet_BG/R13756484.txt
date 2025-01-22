@@ -1,0 +1,233 @@
+--------------------------------------------------------------------------------
+Codebook for Social Explorer report ID: R13756484
+--------------------------------------------------------------------------------
+
+Contents
+    - Table Summary
+    - Data Dictionary
+    - Citation and Use
+
+
+--------------------------------------------------------------------------------
+Table Summary
+--------------------------------------------------------------------------------
+ 
+Survey:           ACS 2022 (5-Year Estimates)
+Dataset:          American Community Survey 2022
+Tables:
+
+      1. Presence Of A Computer And Type Of Internet Subscription In Household
+         Universe:  Universe: Population in Households
+         Name:      B28008
+         Variables:
+            B28008001:   Total:
+            B28008002:      Has A Computer:
+            B28008003:         With Dial-Up Internet Subscription Alone
+            B28008004:         With A Broadband Subscription:
+            B28008005:            With A Fixed Broadband Internet Subscription:
+            B28008006:               With A Cellular Data Plan
+            B28008007:               Without A Cellular Data Plan
+            B28008008:            Cellular Data Plan Alone Or With Dial-Up
+            B28008009:         Without Internet Subscription
+            B28008010:      No Computer
+
+
+      2. Presence Of A Computer And Type Of Internet Subscription In Household
+         Universe:  Universe: Population in Households
+         Name:      B28008_se
+         Variables:
+            B28008001s:   Std. Error: Total:
+            B28008002s:      Std. Error: Has A Computer:
+            B28008003s:         Std. Error: With Dial-Up Internet Subscription Alone
+            B28008004s:         Std. Error: With A Broadband Subscription:
+            B28008005s:            Std. Error: With A Fixed Broadband Internet Subscription:
+            B28008006s:               Std. Error: With A Cellular Data Plan
+            B28008007s:               Std. Error: Without A Cellular Data Plan
+            B28008008s:            Std. Error: Cellular Data Plan Alone Or With Dial-Up
+            B28008009s:         Std. Error: Without Internet Subscription
+            B28008010s:      Std. Error: No Computer
+
+
+      3. Computers In Household
+         Universe:  Universe: Households
+         Name:      B28010
+         Variables:
+            B28010001:   Total:
+            B28010002:      Has One Or More Types Of Computing Devices:
+            B28010003:         Desktop Or Laptop
+            B28010004:            Desktop Or Laptop Alone
+            B28010005:         Smartphone, Tablet Or Other Portable Wireless Computer Or Other Computer
+            B28010006:            Smartphone, Tablet Or Other Portable Wireless Computer Or Other Computer, No Desktop Or Laptop
+            B28010007:      No Computer
+
+
+      4. Computers In Household
+         Universe:  Universe: Households
+         Name:      B28010_se
+         Variables:
+            B28010001s:   Std. Error: Total:
+            B28010002s:      Std. Error: Has One Or More Types Of Computing Devices:
+            B28010003s:         Std. Error: Desktop Or Laptop
+            B28010004s:            Std. Error: Desktop Or Laptop Alone
+            B28010005s:         Std. Error: Smartphone, Tablet Or Other Portable Wireless Computer Or Other Computer
+            B28010006s:            Std. Error: Smartphone, Tablet Or Other Portable Wireless Computer Or Other Computer, No Desktop Or Laptop
+            B28010007s:      Std. Error: No Computer
+
+
+      5. Internet Subscriptions In Household
+         Universe:  Universe: Households
+         Name:      B28011
+         Variables:
+            B28011001:   Total:
+            B28011002:      With An Internet Subscription
+            B28011003:         Dial-Up Alone
+            B28011004:         Broadband Such As Cable, Fiber Optic, Or Dsl
+            B28011005:         Satellite Internet Service
+            B28011006:         Other Service
+            B28011007:      Internet Access Without A Subscription
+            B28011008:      No Internet Access
+
+
+      6. Internet Subscriptions In Household
+         Universe:  Universe: Households
+         Name:      B28011_se
+         Variables:
+            B28011001s:   Std. Error: Total:
+            B28011002s:      Std. Error: With An Internet Subscription
+            B28011003s:         Std. Error: Dial-Up Alone
+            B28011004s:         Std. Error: Broadband Such As Cable, Fiber Optic, Or Dsl
+            B28011005s:         Std. Error: Satellite Internet Service
+            B28011006s:         Std. Error: Other Service
+            B28011007s:      Std. Error: Internet Access Without A Subscription
+            B28011008s:      Std. Error: No Internet Access
+
+
+
+
+
+ 
+ 
+ 
+--------------------------------------------------------------------------------
+Data Dictionary
+--------------------------------------------------------------------------------
+ 
+Variables 
+      FIPS:           FIPS
+      QName:          Qualifying Name
+      STUSAB:         State Postal Abbreviation
+      SUMLEV:         Summary Level
+      GEOCOMP:        Geographic Component
+      US:             US
+      REGION:         Census Region
+      DIVISION:       Census Division
+      STATE:          State (FIPS Code)
+      COUNTY:         County of current residence
+      COUSUB:         County Subdivision (FIPS)
+      PLACE:          Place (FIPS Code)
+      TRACT:          Census Tract
+      BLKGRP:         Block Group
+      CONCIT:         Consolidated City
+      AIANHH:         American Indian Area/Alaska Native Area/ Hawaiian Home Land (Census)
+      AIANHHFP:       American Indian Area/Alaska Native Area/ Hawaiian Home Land (FIPS)
+      AIHHTLI:        American Indian Trust Land/Hawaiian Home Land Indicator
+      AITS:           American Indian Tribal Subdivision (FIPS)
+      ANRC:           Alaska Native Regional Corporation (FIPS)
+      CBSA:           Metropolitan and Micropolitan Statistical Area
+      CSA:            Combined Statistical Area
+      METDIV:         Metropolitan Statistical Area-Metropolitan Division
+      MACC:           Metropolitan Area Central City
+      MEMI:           Metropolitan/Micropolitan Indicator Flag
+      NECTA:          New England City and Town Area
+      CNECTA:         New England City and Town Combined Statistical Area
+      NECTADIV:       New England City and Town Area Division
+      UA:             Urban Area
+      CDCURR:         Current Congressional District ***
+      SLDU:           State Legislative District Upper
+      SLDL:           State Legislative District Lower
+      ZCTA3:          ZIP Code Tabulation Area (3-digit)
+      ZCTA5:          5-digit ZIP Code Tabulation Area
+      SUBMCD:         Subminor Civil Division (FIPS)
+      SDELM:          State-School District (Elementary)
+      SDSEC:          State-School District (Secondary)
+      SDUNI:          State-School District (Unified)
+      UR:             Urban/Rural
+      PCI:            Principal City Indicator
+      PUMA5:          Public Use Microdata Area – 5% File
+      NAME:           Area Name
+      BTTR:           Tribal Tract
+      BTBG:           Tribal Block Group
+      PLACESE:        Place (State FIPS + Place FIPS)
+      B28008001:      Total
+      B28008002:      Total: Has A Computer
+      B28008003:      Total: Has A Computer: With Dial-Up Internet Subscription Alone
+      B28008004:      Total: Has A Computer: With A Broadband Subscription
+      B28008005:      Total: Has A Computer: With A Broadband Subscription: With A Fixed Broadband Internet Subscription
+      B28008006:      Total: Has A Computer: With A Broadband Subscription: With A Fixed Broadband Internet Subscription: With A Cellular Data Plan
+      B28008007:      Total: Has A Computer: With A Broadband Subscription: With A Fixed Broadband Internet Subscription: Without A Cellular Data Plan
+      B28008008:      Total: Has A Computer: With A Broadband Subscription: Cellular Data Plan Alone Or With Dial-Up
+      B28008009:      Total: Has A Computer: Without Internet Subscription
+      B28008010:      Total: No Computer
+      B28008001s:     Std. Error: Total
+      B28008002s:     Std. Error: Total: Has A Computer
+      B28008003s:     Std. Error: Total: Has A Computer: With Dial-Up Internet Subscription Alone
+      B28008004s:     Std. Error: Total: Has A Computer: With A Broadband Subscription
+      B28008005s:     Std. Error: Total: Has A Computer: With A Broadband Subscription: With A Fixed Broadband Internet Subscription
+      B28008006s:     Std. Error: Total: Has A Computer: With A Broadband Subscription: With A Fixed Broadband Internet Subscription: With A Cellular Data Plan
+      B28008007s:     Std. Error: Total: Has A Computer: With A Broadband Subscription: With A Fixed Broadband Internet Subscription: Without A Cellular Data Plan
+      B28008008s:     Std. Error: Total:   Cellular Data Plan Alone Or With Dial-Up
+      B28008009s:     Std. Error: Total:  Without Internet Subscription
+      B28008010s:     Std. Error: Total: No Computer
+      B28010001:      Total
+      B28010002:      Total: Has One Or More Types Of Computing Devices
+      B28010003:      Total: Has One Or More Types Of Computing Devices: Desktop Or Laptop
+      B28010004:      Total: Has One Or More Types Of Computing Devices: Desktop Or Laptop Alone
+      B28010005:      Total: Has One Or More Types Of Computing Devices: Smartphone, Tablet Or Other Portable Wireless Computer Or Other Computer
+      B28010006:      Total: Has One Or More Types Of Computing Devices: Smartphone, Tablet Or Other Portable Wireless Computer Or Other Computer, No Desktop Or Laptop
+      B28010007:      Total: No Computer
+      B28010001s:     Std. Error: Total
+      B28010002s:     Std. Error: Total: Has One Or More Types Of Computing Devices
+      B28010003s:     Std. Error: Total: Has One Or More Types Of Computing Devices: Desktop Or Laptop
+      B28010004s:     Std. Error: Total: Has One Or More Types Of Computing Devices: Desktop Or Laptop Desktop Or Laptop Alone
+      B28010005s:     Std. Error: Total:  Smartphone Tablet Or Other Portable Wireless Computer Or Other Computer
+      B28010006s:     Std. Error: Total:  Smartphone Tablet Or Other Portable Wireless Computer Or Other Computer Smartphone Tablet Or Other Portable Wireless Computer Or Other Computer No Desktop Or Laptop
+      B28010007s:     Std. Error: Total: No Computer
+      B28011001:      Total
+      B28011002:      Total: With An Internet Subscription
+      B28011003:      Total: Dial-Up Alone
+      B28011004:      Total: Broadband Such As Cable, Fiber Optic, Or Dsl
+      B28011005:      Total: Satellite Internet Service
+      B28011006:      Total: Other Service
+      B28011007:      Total: Internet Access Without A Subscription
+      B28011008:      Total: No Internet Access
+      B28011001s:     Std. Error: Total
+      B28011002s:     Std. Error: Total: With An Internet Subscription
+      B28011003s:     Std. Error: Total: With An Internet Subscription Dial-Up Alone
+      B28011004s:     Std. Error: Total: With An Internet Subscription Broadband Such As Cable Fiber Optic Or Dsl
+      B28011005s:     Std. Error: Total: With An Internet Subscription Satellite Internet Service
+      B28011006s:     Std. Error: Total: With An Internet Subscription Other Service
+      B28011007s:     Std. Error: Total: Internet Access Without A Subscription
+      B28011008s:     Std. Error: Total: No Internet Access
+
+
+
+
+--------------------------------------------------------------------------------
+Citation and Use of Data
+--------------------------------------------------------------------------------
+ 
+All persons are granted a limited license to use this documentation and the
+accompanying data, subject to the following conditions:
+
+* Publications and research reports employing the data
+  must cite it appropriately. The citation should include the following:
+
+	  www.socialexplorer.com
+	  New York City, NY: Social Explorer 2024
+
+
+* Citations should also include the URL for this report:
+
+    http://www.socialexplorer.com/pub/reportdata/HtmlResults.aspx?reportid=R13756484
+
+If you have any questions contact info@socialexplorer.com

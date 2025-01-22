@@ -30,7 +30,7 @@
     git clone https://github.com/linnerlek/CoSEA-Dash.git
     ```
 2. Ensure Git LFS is pulling the large data files:
-  **If Git LFS is installed, this step is automatic**. Otherwise, after cloning the repository, run:
+  - **If Git LFS is installed, this step is automatic**. Otherwise, after cloning the repository, run:
     ```bash
     git lfs pull
     ```

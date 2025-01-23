@@ -251,8 +251,17 @@ def generate_legend(fig, filtered_data, color_mapping, title, size_func=None, sh
                 ),
                 hoverinfo="text",
                 text=data_subset.apply(
-                    lambda row: f"School: {row['School_Name']}<br>School Classification: {
-                        row['School_Classification']}<br>Total Students: {row['Total_Student_Count']}",
+                    lambda row: (
+                        f"School: {row['School_Name']}<br>"
+                        f"CS Course Offered: {
+                            row['School_Classification']}<br>"
+                        f"Total Students: {row['Total_Student_Count']}<br>"
+                        f"City: {row['City']}<br>"
+                        f"County: {row['County_Name']}<br>"
+                        f"District: {row['District_name']} School District<br>"
+                        f"Grade Range: {row['Grade_Range']}<br>"
+                        f"Locale Type: {row['Locale_Type']}<br>"
+                    ),
                     axis=1
                 )
             ))
@@ -264,8 +273,6 @@ def generate_legend(fig, filtered_data, color_mapping, title, size_func=None, sh
     ])
 
     return fig, legend_content
-
-
 
 
 def create_modality_legend(fig, filtered_data):
@@ -312,6 +319,7 @@ def create_disparity_legend(fig, filtered_data, selected_disparity):
 
     bins = list(low_bins[:-1]) + [-0.05, 0.05] + list(high_bins[1:])
     adjusted_labels = []
+
     if len(low_bins) > 1:
         adjusted_labels += ["Dark Red", "Red", "Light Red"][:len(low_bins) - 1]
     adjusted_labels += ["White"]
@@ -327,7 +335,19 @@ def create_disparity_legend(fig, filtered_data, selected_disparity):
         sort=False)
     legend_items = []
 
-    for i, (count, color) in enumerate(zip(category_counts, DISPARITY_COLORS[:len(adjusted_labels)])):
+    color_mapping = {
+        "Dark Red": "darkred",
+        "Red": "red",
+        "Light Red": "lightcoral",
+        "White": "white",
+        "Light Green": "lightgreen",
+        "Green": "green",
+        "Dark Green": "#004d00"
+    }
+
+    for i, label in enumerate(adjusted_labels):
+        count = category_counts.get(label, 0)
+        color = color_mapping.get(label, "grey")
         legend_items.append(html.Li([
             html.Div(style={
                 "backgroundColor": color,
@@ -347,23 +367,20 @@ def create_disparity_legend(fig, filtered_data, selected_disparity):
         mode="markers",
         marker=dict(
             size=8,
-            color=disparity_data['Disparity_Category'].map({
-                "Dark Red": "darkred",
-                "Red": "red",
-                "Light Red": "lightcoral",
-                "White": "white",
-                "Light Green": "lightgreen",
-                "Green": "green",
-                "Dark Green": "#004d00"
-            }),
+            color=disparity_data['Disparity_Category'].map(color_mapping),
             line=dict(width=0.5, color="black")
         ),
         hoverinfo="text",
         text=disparity_data.apply(
             lambda row: (
                 f"School: {row['School_Name']}<br>"
-                f"Course Offered: {row['School_Classification']}<br>"
+                f"CS Course Offered: {row['School_Classification']}<br>"
                 f"Total Students: {row['Total_Student_Count']}<br>"
+                f"City: {row['City']}<br>"
+                f"County: {row['County_Name']}<br>"
+                f"District: {row['District_name']} School District<br>"
+                f"Grade Range: {row['Grade_Range']}<br>"
+                f"Locale Type: {row['Locale_Type']}<br>"
                 f"<b>{selected_disparity.replace('Disparity_', '')} Disparity: {
                     row[selected_disparity] * 100:.2f}%</b><br>"
                 + "<br>".join(

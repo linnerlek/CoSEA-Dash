@@ -3,6 +3,8 @@ import plotly.graph_objects as go
 from config import FIGURE_LAYOUT
 from helpers import *
 
+layer_data_cache = {}
+
 
 def register_callbacks(app, georgia_outline_gdf, data, layer_metadata):
     @app.callback(
@@ -20,7 +22,7 @@ def register_callbacks(app, georgia_outline_gdf, data, layer_metadata):
             Output("custom-legend", "children"),
         ],
         [
-            Input("layer-dropdown", "value"), 
+            Input("layer-dropdown", "value"),
             Input("filter-toggle", "value"),
             Input("school-options-toggle", "value"),
             Input("school-type-toggle", "value"),
@@ -34,11 +36,14 @@ def register_callbacks(app, georgia_outline_gdf, data, layer_metadata):
         selected_types,
         selected_disparity,
     ):
-        # print(f"Selected Layer: {selected_layer}")  
+        filtered_data = data[
+            (data["Grade_Range"].isin(["09-12", "10-12"]))
+            & (data["Logic_Class"].isin(selected_schools))
+            & (data["Locale_Type"].isin(selected_types))
+        ]
 
         fig = go.Figure()
 
-        # Add state outline
         state_outline = georgia_outline_gdf.unary_union
         if state_outline.geom_type == "Polygon":
             lon_coords, lat_coords = zip(*state_outline.exterior.coords)
@@ -65,18 +70,23 @@ def register_callbacks(app, georgia_outline_gdf, data, layer_metadata):
                 )
 
         if selected_layer:
-            # print(f"Fetching data for layer {selected_layer}")  
             selected_layer_metadata = next(
                 (layer for layer in layer_metadata if layer["id"]
-                == selected_layer), None
+                 == selected_layer), None
             )
+
             if selected_layer_metadata:
-                layer_data = fetch_layer_data(
-                    selected_layer_metadata["id"],  
-                    selected_layer_metadata.get(
-                        "display_field", "NAME")  
-                )
-                if layer_data is not None and not layer_data.empty:
+                print(f"Layer selected: {selected_layer_metadata['name']}")
+                if selected_layer not in layer_data_cache:
+                    layer_data = fetch_layer_data(
+                        selected_layer_metadata["id"],
+                        selected_layer_metadata.get("display_field", "NAME")
+                    )
+                    if layer_data is not None and not layer_data.empty:
+                        layer_data_cache[selected_layer] = layer_data
+                layer_data = layer_data_cache.get(selected_layer)
+
+                if layer_data is not None:
                     simplified_layer_data = simplify_geometry_dynamically(
                         layer_data, zoom_level=8
                     )
@@ -85,7 +95,8 @@ def register_callbacks(app, georgia_outline_gdf, data, layer_metadata):
                         name = feature.get(selected_layer_metadata.get(
                             "display_field", "NAME"), "Unnamed Layer")
                         if geometry.geom_type == "Polygon":
-                            lon_coords, lat_coords = zip(*geometry.exterior.coords)
+                            lon_coords, lat_coords = zip(
+                                *geometry.exterior.coords)
                             fig.add_trace(
                                 go.Scattergeo(
                                     lon=lon_coords,
@@ -110,11 +121,8 @@ def register_callbacks(app, georgia_outline_gdf, data, layer_metadata):
                                         text=name,
                                     )
                                 )
-
-        filtered_data = data[
-            (data["Logic_Class"].isin(selected_schools))
-            & (data["Locale_Type"].isin(selected_types))
-        ]
+            else:
+                print(f"Layer {selected_layer} not found in layer_metadata.")
 
         legend_content = []
         if selected_filter == "Logic_Class":
@@ -124,8 +132,7 @@ def register_callbacks(app, georgia_outline_gdf, data, layer_metadata):
         elif selected_filter == "Disparity":
             if selected_disparity:
                 fig, legend_content = create_disparity_legend(
-                    fig, filtered_data, selected_disparity
-                )
+                    fig, filtered_data, selected_disparity)
 
         fig.update_layout(
             **FIGURE_LAYOUT,

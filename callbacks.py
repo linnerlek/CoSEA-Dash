@@ -3,12 +3,8 @@ import plotly.graph_objects as go
 from config import FIGURE_LAYOUT
 from helpers import *
 
-georgia_outline_gdf = simplify_geometry(load_georgia_outline())
-school_districts_gdf = simplify_geometry(load_school_districts())
-data = load_data()
 
-
-def register_callbacks(app):
+def register_callbacks(app, georgia_outline_gdf, data, layer_metadata):
     @app.callback(
         Output("disparity-options-container", "style"),
         Input("filter-toggle", "value"),
@@ -19,21 +15,30 @@ def register_callbacks(app):
         return {"display": "none"}
 
     @app.callback(
-        [Output("map-display", "figure"), Output("custom-legend", "children")],
         [
+            Output("map-display", "figure"),
+            Output("custom-legend", "children"),
+        ],
+        [
+            Input("layer-dropdown", "value"), 
             Input("filter-toggle", "value"),
             Input("school-options-toggle", "value"),
             Input("school-type-toggle", "value"),
-            Input("map-options-toggle", "value"),
             Input("disparity-toggle", "value"),
         ],
     )
-    def update_map(selected_filter, selected_schools, selected_types, map_options, selected_disparity):
-        """
-        Update the map based on selected options.
-        """
+    def update_map(
+        selected_layer,
+        selected_filter,
+        selected_schools,
+        selected_types,
+        selected_disparity,
+    ):
+        # print(f"Selected Layer: {selected_layer}")  
+
         fig = go.Figure()
 
+        # Add state outline
         state_outline = georgia_outline_gdf.unary_union
         if state_outline.geom_type == "Polygon":
             lon_coords, lat_coords = zip(*state_outline.exterior.coords)
@@ -59,43 +64,56 @@ def register_callbacks(app):
                     )
                 )
 
-        if "school_districts" in map_options:
-            for _, row in school_districts_gdf.iterrows():
-                geometry = row.geometry
-                district_type = "Unified" if "unsd" in row["GEOID"] else "Secondary"
-                color = "blue" if district_type == "Unified" else "green"
-                dash_style = "solid" if district_type == "Unified" else "dot"
-
-                if geometry.geom_type == "Polygon":
-                    lon_coords, lat_coords = zip(*geometry.exterior.coords)
-                    fig.add_trace(
-                        go.Scattergeo(
-                            lon=lon_coords,
-                            lat=lat_coords,
-                            mode="lines",
-                            line=dict(color=color, width=1, dash=dash_style),
-                            hoverinfo="text",
-                            text=row["NAME"],
-                        )
+        if selected_layer:
+            # print(f"Fetching data for layer {selected_layer}")  
+            selected_layer_metadata = next(
+                (layer for layer in layer_metadata if layer["id"]
+                == selected_layer), None
+            )
+            if selected_layer_metadata:
+                layer_data = fetch_layer_data(
+                    selected_layer_metadata["id"],  
+                    selected_layer_metadata.get(
+                        "display_field", "NAME")  
+                )
+                if layer_data is not None and not layer_data.empty:
+                    simplified_layer_data = simplify_geometry_dynamically(
+                        layer_data, zoom_level=8
                     )
-                elif geometry.geom_type == "MultiPolygon":
-                    for polygon in geometry.geoms:
-                        lon_coords, lat_coords = zip(*polygon.exterior.coords)
-                        fig.add_trace(
-                            go.Scattergeo(
-                                lon=lon_coords,
-                                lat=lat_coords,
-                                mode="lines",
-                                line=dict(color=color, width=1,
-                                          dash=dash_style),
-                                hoverinfo="text",
-                                text=row["NAME"],
+                    for _, feature in simplified_layer_data.iterrows():
+                        geometry = feature.geometry
+                        name = feature.get(selected_layer_metadata.get(
+                            "display_field", "NAME"), "Unnamed Layer")
+                        if geometry.geom_type == "Polygon":
+                            lon_coords, lat_coords = zip(*geometry.exterior.coords)
+                            fig.add_trace(
+                                go.Scattergeo(
+                                    lon=lon_coords,
+                                    lat=lat_coords,
+                                    mode="lines",
+                                    line=dict(color="blue", width=1),
+                                    hoverinfo="text",
+                                    text=name,
+                                )
                             )
-                        )
+                        elif geometry.geom_type == "MultiPolygon":
+                            for polygon in geometry.geoms:
+                                lon_coords, lat_coords = zip(
+                                    *polygon.exterior.coords)
+                                fig.add_trace(
+                                    go.Scattergeo(
+                                        lon=lon_coords,
+                                        lat=lat_coords,
+                                        mode="lines",
+                                        line=dict(color="blue", width=1),
+                                        hoverinfo="text",
+                                        text=name,
+                                    )
+                                )
 
         filtered_data = data[
-            (data["Logic_Class"].isin(selected_schools)) &
-            (data["Locale_Type"].isin(selected_types))
+            (data["Logic_Class"].isin(selected_schools))
+            & (data["Locale_Type"].isin(selected_types))
         ]
 
         legend_content = []
@@ -106,7 +124,8 @@ def register_callbacks(app):
         elif selected_filter == "Disparity":
             if selected_disparity:
                 fig, legend_content = create_disparity_legend(
-                    fig, filtered_data, selected_disparity)
+                    fig, filtered_data, selected_disparity
+                )
 
         fig.update_layout(
             **FIGURE_LAYOUT,

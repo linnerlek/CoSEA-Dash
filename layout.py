@@ -1,7 +1,8 @@
 from dash import html, dcc
 
 
-def create_layout(app, filter_options, school_classification_options, locale_options, disparity_columns):
+def create_layout(app, filter_options, school_classification_options, locale_options, disparity_columns, valid_layer_options):
+    valid_layer_options.insert(0, {"label": "No Layer", "value": "none"})
     return html.Div(
         [
             html.H1("CoSEA Dashboard"),
@@ -65,14 +66,11 @@ def create_layout(app, filter_options, school_classification_options, locale_opt
                             html.H3("Map Options"),
                             html.Div(
                                 [
-                                    html.H4("School Districts:"),
-                                    dcc.Checklist(
-                                        id="map-options-toggle",
-                                        options=[
-                                            {"label": "Show School Districts",
-                                                "value": "school_districts"},
-                                        ],
-                                        value=[],
+                                    html.Label("Select Layer:"),
+                                    dcc.Dropdown(
+                                        id="layer-dropdown",
+                                        options=valid_layer_options,
+                                        placeholder="Choose a layer...",
                                     ),
                                 ]
                             ),

@@ -1,7 +1,12 @@
-# Paths
-GEORGIA_OUTLINE_PATH = "./data/shapefiles/tlgdb_2024_a_13_ga.gdb"
-SECONDARY_SCHOOL_DISTRICTS_PATH = "./data/shapefiles/districts/tl_2024_13_scsd/tl_2024_13_scsd.shp"
-UNIFIED_SCHOOL_DISTRICTS_PATH = "./data/shapefiles/districts/tl_2024_13_unsd/tl_2024_13_unsd.shp"
+# TIGERweb base URL
+TIGERWEB_BASE_URL = "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2024/MapServer"
+
+# Census API details
+CENSUS_API_URL = "https://api.census.gov/data/2023/acs/acs5"
+# Request key at: https://api.census.gov/data/key_signup.html the email might take a while, i had to use gmail
+CENSUS_API_KEY = "YOUR KEY HERE"
+
+# File paths
 DATA_PATH = "./data/dataset.csv"
 
 # Filter options
@@ -67,5 +72,4 @@ FIGURE_LAYOUT = {
     },
     "margin": {"r": 0, "t": 0, "l": 0, "b": 0},
     "showlegend": False,
-    "map_style": "satellite",
 }

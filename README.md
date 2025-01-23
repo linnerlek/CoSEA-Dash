@@ -1,6 +1,7 @@
 # CoSEA Dashboard
 
 ## **Notes**:
+- It may take some time for the Dash app to start up initially as it loads the required data.
 - I have a [Project Overview](https://github.com/users/linnerlek/projects/4) set up where I track work in progress.
 - I loosely followed the implementation plan outlined in *CoSEA_workflow.pptx* and *Tiffany & Tai's Log Book*.
 
@@ -16,6 +17,9 @@
 - **Map Options**  
   Visualize data through map layers:
   - **School Zones**: Turn on and off School Districts.
+  - **Counties**: View county outlines
+  - **Cities**: View city outlines
+  - ... and others
 
 ## Requirements
 - **Python**: This project requires Python (3.13 or higher). Install it from [python.org](https://www.python.org/downloads/).
@@ -23,6 +27,7 @@
   ```bash
   git lfs install
   ```
+- An **API key** is required for the app to function properly. You can obtain it from [this link](https://api.census.gov/data/key_signup.html). Once you have the key, add it to the `config.py` file under the `CENSUS_API_KEY` variable.
 
 ## How to Install
 1. Clone the repository:

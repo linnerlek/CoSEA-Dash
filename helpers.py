@@ -1,16 +1,24 @@
+import concurrent.futures
 from dash import html
 import pandas as pd
-import plotly.graph_objects as go
 import geopandas as gpd
+import plotly.graph_objects as go
+import requests
 from shapely.geometry import Polygon, MultiPolygon
 from config import *
 
 
 def load_data():
+    """
+    Load and return the dataset from the local CSV file.
+    """
     return pd.read_csv(DATA_PATH)
 
 
 def prepare_options(data):
+    """
+    Prepare dropdown options based on the dataset.
+    """
     school_classification_options = [
         {
             "label": data[data["Logic_Class"] == logic]["School_Classification"].iloc[0],
@@ -27,10 +35,45 @@ def prepare_options(data):
 
     return school_classification_options, locale_options
 
-# The outlines had to be simplified to reduce the number of points in the geometry due to lag
+
+def prepare_layer_options(layers_metadata):
+    """
+    Prepare dropdown options based on layers metadata,
+    only showing layers that have data for Georgia (STATE=13)
+    and contain valid GeoJSON geometry, using concurrent.futures for parallel fetching.
+    """
+    valid_layers = []
+    print("Starting layer data check...")
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = {executor.submit(
+            fetch_layer_data, layer["id"]): layer for layer in layers_metadata}
+
+        for future in concurrent.futures.as_completed(futures):
+            layer = futures[future]
+            try:
+                layer_data = future.result()
+
+                if layer_data is not None and not layer_data.empty and not layer_data.geometry.isnull().all():
+                    valid_layers.append({
+                        "label": layer["name"],
+                        "value": layer["id"]
+                    })
+                else:
+                    continue
+            except Exception as e:
+                print(f"Error processing layer {layer['id']}: {e}")
+
+    print(f"Layer check complete. Found {len(valid_layers)} valid layers.")
+    return valid_layers
 
 
-def simplify_geometry(gdf, tolerance=0.01):
+def simplify_geometry_dynamically(gdf, zoom_level):
+    """
+    Dynamically simplify geometries based on the map's zoom level.
+    """
+    tolerance = max(0.005, 0.05 / (zoom_level + 1)
+                    )  # Slightly refined tolerance calculation
     gdf["geometry"] = gdf["geometry"].apply(
         lambda geom: geom.simplify(tolerance, preserve_topology=True)
         if isinstance(geom, (Polygon, MultiPolygon)) else geom
@@ -38,25 +81,124 @@ def simplify_geometry(gdf, tolerance=0.01):
     return gdf
 
 
-def load_georgia_outline():
-    gdf = gpd.read_file(GEORGIA_OUTLINE_PATH,
-                        layer="County")
-    gdf = gdf.to_crs("EPSG:4326")
-    return simplify_geometry(gdf)
+def fetch_georgia_outline():
+    """
+    Fetch the Georgia state boundary from the TIGERweb States layer.
+    """
+    endpoint = "80/query"
+    params = {
+        "where": "STATE='13'", 
+        "outFields": "*",  
+        "outSR": 4326, 
+        "f": "geojson", 
+    }
+    geojson_data = get_api_info(endpoint, params)
+
+    if not geojson_data or "features" not in geojson_data:
+        raise ValueError(f"Invalid GeoJSON response: {geojson_data}")
+
+    gdf = gpd.GeoDataFrame.from_features(geojson_data["features"])
+    gdf.crs = "EPSG:4326"
+    return gdf
 
 
-def load_school_districts():
-    secondary_gdf = gpd.read_file(SECONDARY_SCHOOL_DISTRICTS_PATH)
-    unified_gdf = gpd.read_file(UNIFIED_SCHOOL_DISTRICTS_PATH)
+def get_api_info(endpoint, params=None):
+    """
+    Fetch data from the TIGERweb API or Census API dynamically.
+    """
+    url = f"{TIGERWEB_BASE_URL}/{endpoint}"
+    if params is None:
+        params = {}
 
-    combined_gdf = gpd.GeoDataFrame(
-        pd.concat([secondary_gdf, unified_gdf], ignore_index=True)
-    )
-    combined_gdf = combined_gdf.to_crs("EPSG:4326")
-    return simplify_geometry(combined_gdf)
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+
+        # Check for valid GeoJSON or JSON response
+        content_type = response.headers.get("Content-Type", "").lower()
+        if "application/json" in content_type or "application/geo+json" in content_type:
+            return response.json()
+        else:
+            return None
+    except requests.RequestException as e:
+        print(f"Request error for URL {url}: {e}")
+        return None
+    except ValueError as e:
+        print(f"Error parsing JSON from URL {url}: {e}")
+        return None
+
+
+def fetch_layers_metadata():
+    """
+    Fetch metadata about all layers in the TIGERweb MapServer in JSON format.
+    """
+    url = f"{TIGERWEB_BASE_URL}/layers?f=pjson"  # Ensure JSON format is requested
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        metadata = response.json()
+        layers = metadata.get("layers", [])
+
+        # Extract relevant information
+        layer_info = []
+        for layer in layers:
+            layer_info.append({
+                "id": layer["id"],
+                "name": layer["name"],
+                "display_field": layer.get("displayField", "NAME"),
+                "geometry_type": layer["geometryType"],
+                "description": layer["description"]
+            })
+        return layer_info
+    except requests.RequestException as e:
+        print(f"Error fetching layers metadata: {e}")
+        return []
+    except ValueError as e:
+        print(f"Error parsing JSON: {e}")
+        return []
+
+
+def fetch_layer_data(layer_id, display_field="NAME"):
+    """
+    Fetch layer data filtered for Georgia using the STATE FIPS code.
+
+    Args:
+        layer_id (int): The ID of the layer to query.
+        display_field (str): The field used for display purposes (default is "NAME").
+    
+    Returns:
+        GeoDataFrame: A GeoDataFrame containing the fetched layer data, or None if the request failed.
+    """
+    endpoint = f"{layer_id}/query"
+    params = {
+        "where": "STATE='13'", 
+        "outFields": display_field,
+        "outSR": 4326,
+        "f": "geojson",
+        "returnGeometry": "true",
+    }
+
+    geojson_data = get_api_info(endpoint, params)
+
+    if geojson_data is None or "features" not in geojson_data or not geojson_data["features"]:
+        return None
+
+    for feature in geojson_data["features"]:
+        if feature.get("geometry") is None:
+            return None
+
+    try:
+        gdf = gpd.GeoDataFrame.from_features(geojson_data["features"])
+        gdf.crs = "EPSG:4326"
+        return gdf
+    except Exception as e:
+        return None
 
 
 def calculate_total_schools(filtered_data, logic_class_keys):
+    """
+    Calculate total schools and class counts for given logic keys.
+    """
     total = 0
     class_counts = {}
     for key in logic_class_keys:
@@ -122,6 +264,8 @@ def generate_legend(fig, filtered_data, color_mapping, title, size_func=None, sh
     ])
 
     return fig, legend_content
+
+
 
 
 def create_modality_legend(fig, filtered_data):

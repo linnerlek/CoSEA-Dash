@@ -1,0 +1,201 @@
+/* Legend block base styles */
+.legend-flex-8 {
+  flex: 8 1 0%;
+  min-width: 0;
+  width: 100%;
+  display: flex;
+}
+.legend-flex-2 {
+  flex: 2 1 0%;
+  min-width: 0;
+  width: 100%;
+  display: flex;
+}
+.legend-full-width {
+  width: 100%;
+  display: flex;
+}
+.legend-title {
+  font-weight: bold;
+  font-size: 15px;
+  .legend-combined-row {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: flex-start;
+    width: auto; /* Adjusted to allow flex items to size correctly */
+  }
+  .legend-flex-8 {
+    flex: 8 1 0%;
+    min-width: 0;
+  }
+  .legend-flex-2 {
+    flex: 2 1 0%;
+    min-width: 0;
+  }
+  .legend-flex-8 {
+    max-width: 100%;
+    display: flex;
+  }
+  .legend-flex-2 {
+    max-width: 100%;
+    display: flex;
+  }
+  .legend-full-width {
+    display: flex;
+  }
+  .legend-full-width {
+    width: 100%;
+  }
+  margin-bottom: 2px;
+}
+.legend-dot-row-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 0;
+  min-width: 0;
+  width: 100%;
+}
+.legend-dot-row {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  margin-right: 8px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+.legend-dot-label {
+  font-size: 15px;
+  vertical-align: middle;
+}
+/* Modality color dots (override with inline style in app.py for color) */
+.legend-dot {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 8px;
+  border: 1.5px solid #222;
+  opacity: 0.5;
+  vertical-align: middle;
+}
+.legend-dot-both {
+  background: #47cef5;
+}
+.legend-dot-in-person {
+  background: #f54777;
+}
+.legend-dot-virtual {
+  background: #ffb300;
+}
+.legend-dot-no {
+  background: #636363;
+}
+
+/* Disparity color dots (by index) */
+.legend-dot-disparity {
+  opacity: 0.8;
+  border: 1.5px solid #222;
+}
+.legend-dot-color-0 {
+  background: #7f2704;
+}
+.legend-dot-color-1 {
+  background: #d94801;
+}
+.legend-dot-color-2 {
+  background: #fdae6b;
+}
+.legend-dot-color-3 {
+  background: #ffffff;
+  border: 1.5px solid #222;
+}
+.legend-dot-color-4 {
+  background: #9ecae1;
+}
+.legend-dot-color-5 {
+  background: #3182bd;
+}
+.legend-dot-color-6 {
+  background: #08519c;
+}
+
+/* Overlay legend styles */
+.legend-overlay-block {
+  padding: 7px 14px 7px 14px;
+  align-self: flex-start;
+  width: auto;
+}
+.legend-overlay-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.legend-overlay-row:last-child {
+  margin-bottom: 0;
+}
+.legend-overlay-line {
+  display: inline-block;
+  margin-right: 7px;
+  vertical-align: middle;
+}
+.legend-overlay-county {
+  width: 24px;
+  height: 2.5px;
+  background: gray;
+  opacity: 0.5;
+}
+.legend-overlay-highway {
+  width: 24px;
+  height: 3.5px;
+  background: gray;
+}
+.legend-overlay-label {
+  font-size: 15px;
+  vertical-align: middle;
+}
+/* Legend block base styles */
+.legend-block {
+  background: white;
+  border: 1.5px solid #bbb;
+  border-radius: 7px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  pointer-events: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+.legend-modality-block {
+  padding: 8px 18px 6px 18px;
+  margin: 0 auto 12px auto;
+}
+.legend-disparity-block {
+  padding: 8px 18px 6px 18px;
+  margin: 0 0 12px 0;
+}
+
+
+
+/* Modality color dots (override with inline style in app.py for color) */
+.legend-dot {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 8px;
+  border: 1.5px solid #222;
+  opacity: 0.5;
+  vertical-align: middle;
+}
+.legend-dot-Both {
+  background: #47cef5;
+}
+.legend-dot-In\ Person {
+  background: #f54777;
+}
+.legend-dot-Virtual {
+  background: #ffb300;
+}
+.legend-dot-No {
+  background: #636363;
+}

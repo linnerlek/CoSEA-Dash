@@ -11,6 +11,8 @@ Image displaying Expanded Modality
 The legend is toggleable, as well as the different map options like highways and county lines.
 
 To do:
+
+- [ ] Add hover info to modality that shows the full breakdown of the logic class
 - [ ] Add filtering for dots to show for example: only schools with extra teachers, or only schools that have above or below parity.
 - [ ] Adding underlays from census data
 - [ ] Implement search function that zooms in on and filters based on search terms like: Name, county, zip, school-district, courses

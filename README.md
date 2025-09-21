@@ -5,6 +5,9 @@ Dashboard that pulls data directly from the database to generate maps based on s
 Image displaying RI_Asian
 ![Representation Index image](assets/RI.png)
 
+Image displaying RI_Female
+![Representation Index image](assets/RIFemale.png)
+
 Image displaying Expanded Modality
 ![Modality image](assets/modality.png)
 

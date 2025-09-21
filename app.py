@@ -1,14 +1,4 @@
-from dash.dash import no_update
-from dash.dependencies import State
-from dash.dependencies import ALL
-import dash
-from dash import dcc, html, Input, Output
-from dash.dependencies import Output as DOutput
-import plotly.graph_objs as go
-import pandas as pd
-from shapely.geometry import Point
-from sqlalchemy import create_engine
-import data_loader
+# keep this at the top to silence warning
 import warnings
 warnings.filterwarnings(
     "ignore",
@@ -16,22 +6,18 @@ warnings.filterwarnings(
     category=DeprecationWarning,
 )
 
+from dash import *
+import plotly.graph_objs as go
+import pandas as pd
+from sqlalchemy import create_engine
+from settings import *
+import data_loader
 
-# Database connection (for school/modalities only)
-engine = create_engine(
-    "postgresql+psycopg2://cosea_user:CoSeaIndex@pgsql.dataconn.net:5432/cosea_db"
-)
+engine = create_engine(DATABASE_URL)
 
-# Dash app setup
 app = dash.Dash(__name__)
 
-
-# Sidebar overlay options
-overlay_options = [
-    {"label": "Show Modalities", "value": "modalities"},
-    {"label": "Show County Lines", "value": "counties"},
-    {"label": "Show Highways", "value": "highways"},
-]
+overlay_options = LABELS["overlay_options"]
 
 app.layout = html.Div([
     html.Div([
@@ -49,23 +35,16 @@ app.layout = html.Div([
         html.H3("Map Options", className="sidebar-title"),
         dcc.Checklist(
             id="map-options-toggle",
-            options=[
-                {"label": "Show Legend", "value": "show_legend"},
-                {"label": "Highways", "value": "highways"},
-                {"label": "County Lines", "value": "counties"},
-            ],
-            value=["show_legend", "highways", "counties"],
+            options=LABELS["map_options"],
+            value=DEFAULT_MAP_OPTIONS,
             className="sidebar-legend-toggle"
         ),
         html.Div([
-            html.Strong("School Dots"),
+            html.Strong(LABELS["school_dots"]),
             dcc.RadioItems(
                 id="school-toggles",
-                options=[
-                    {"label": "Course Modality", "value": "modalities"},
-                    {"label": "Representation Index", "value": "disparity"},
-                ],
-                value="modalities",
+                options=LABELS["school_toggles"],
+                value=DEFAULT_SCHOOL_TOGGLE,
                 className="sidebar-school-toggles"
             ),
             html.Label(id="dots-dropdown-label",
@@ -78,38 +57,24 @@ app.layout = html.Div([
                 className="sidebar-dots-dropdown"
             ),
         ], className="sidebar-section"),
-        # Removed 'Dots Filter' and 'Population & Access' options that were marked as coming soon
     ], className="sidebar"),
 ], className="app-root")
 
-# Callback to update map based on toggles
-
-# Add callback to update dropdown options and label based on school-toggles
-
 
 @app.callback(
-    [DOutput("dots-dropdown", "options"), DOutput("dots-dropdown",
-                                                  "value"), DOutput("dots-dropdown-label", "children")],
+    [Output("dots-dropdown", "options"), Output("dots-dropdown",
+                                                "value"), Output("dots-dropdown-label", "children")],
     [Input("school-toggles", "value")]
 )
 def update_dots_dropdown(school):
     if school == "modalities":
-        options = [
-            {"label": "Modality", "value": "LOGIC_CLASS"},
-            {"label": "Expanded Modality", "value": "LOGIC_CLASS_2"},
-        ]
-        value = "LOGIC_CLASS"
-        label = "Modality Type"
+        options = LABELS["dots_dropdown_options_modality"]
+        value = DEFAULT_DOTS_DROPDOWN_MODALITIES
+        label = LABELS["dots_dropdown_label_modality"]
     elif school == "disparity":
-        options = [
-            {"label": "Black", "value": "RI_Black"},
-            {"label": "Asian", "value": "RI_Asian"},
-            {"label": "Hispanic", "value": "RI_Hispanic"},
-            {"label": "White", "value": "RI_White"},
-            {"label": "Female", "value": "RI_Female"},
-        ]
-        value = "RI_Black"
-        label = "RI Category"
+        options = LABELS["dots_dropdown_options_disparity"]
+        value = DEFAULT_DOTS_DROPDOWN_DISPARITY
+        label = LABELS["dots_dropdown_label_disparity"]
     else:
         options = []
         value = None
@@ -131,7 +96,6 @@ def update_dots_dropdown(school):
 def update_map(map_options, school, dots_dropdown):
 
     fig = go.Figure()
-    # Always show Georgia state outline (on top, black line)
     outline_lon = []
     outline_lat = []
     for x, y in data_loader.GEODATA["ga_outline"]:
@@ -139,14 +103,12 @@ def update_map(map_options, school, dots_dropdown):
         outline_lat.extend(y + [None])
     fig.add_trace(go.Scattermapbox(
         lon=outline_lon, lat=outline_lat, mode="lines",
-        # slightly thicker than county lines (0.5)
         line=dict(color="black", width=1),
         opacity=1.0,
         name="Georgia Outline", showlegend=False, visible=True,
         hoverinfo="skip"
     ))
 
-    # County lines (preloaded, combined trace, match map1.py)
     if "counties" in map_options:
         all_lon = []
         all_lat = []
@@ -161,7 +123,6 @@ def update_map(map_options, school, dots_dropdown):
             hoverinfo="skip"
         ))
 
-    # Highways overlay (preloaded, combined trace, match map1.py)
     if "highways" in map_options:
         all_lon = []
         all_lat = []
@@ -177,152 +138,78 @@ def update_map(map_options, school, dots_dropdown):
         ))
     legend_html = None
     legend_extra = None
-    # --- Dots legend logic (legend_html) ---
     if school == "modalities":
         modality_type = dots_dropdown
-        # Use preloaded school data for modalities and join with coordinates
         merged = data_loader.SCHOOLDATA["gadoe"].copy()
         coords = data_loader.SCHOOLDATA["approved_all"][[
             "UNIQUESCHOOLID", "SCHOOL_NAME", "lat", "lon"]]
         merged = merged.merge(coords, on="UNIQUESCHOOLID", how="left")
+        # Merge in precomputed modality info (grade range, course counts)
+        modality_info = data_loader.SCHOOLDATA["school_modality_info"][[
+            "UNIQUESCHOOLID", "GRADE_RANGE", "virtual_course_count", "inperson_course_count", "virtual_course_count_2", "inperson_course_count_2", "approved_course_count", "approved_course_count_2"
+        ]]
+        merged = merged.merge(modality_info, on="UNIQUESCHOOLID", how="left")
         logic_col = modality_type
 
-        def classify(logic_class):
-            if logic_class.startswith("11"):
-                return "Both"
-            elif logic_class.startswith("10"):
-                return "In Person"
-            elif logic_class.startswith("01"):
-                return "Virtual"
-            else:
-                return "No"
-        merged["Classification"] = merged[logic_col].apply(classify)
-        color_map = {
-            "Both": "#47CEF5",
-            "In Person": "#F54777",
-            "Virtual": "#FFB300",
-            "No": "#636363"
-        }
-        modality_labels = {
-            "Both": "In Person and Virtual",
-            "In Person": "In Person Only",
-            "Virtual": "Virtual Only",
-            "No": "No approved CS Class"
-        }
+        merged["Classification"] = merged[logic_col].apply(
+            data_loader.classify_modality)
         modality_counts = merged["Classification"].value_counts()
-        # Use safe class names for legend dots
-        modality_class_map = {
-            "Both": "both",
-            "In Person": "in-person",
-            "Virtual": "virtual",
-            "No": "no"
-        }
-        for modality, color in color_map.items():
+        for modality, color in MODALITY_COLOR_MAP.items():
             df = merged[merged["Classification"] == modality].copy()
-            # Replace missing/None with 'N/A' for display
             df["CS_Enrollment"] = df["CS_Enrollment"].apply(
                 lambda x: int(x) if pd.notnull(x) else 0)
             df["Certified_Teachers"] = df["Certified_Teachers"].apply(
                 lambda x: int(x) if pd.notnull(x) else 0)
 
-            # Compute student_teacher_ratio safely
             df["student_teacher_ratio"] = df.apply(
                 lambda row: row["CS_Enrollment"] / row["Certified_Teachers"]
                 if row["Certified_Teachers"] not in [0, None, "", float('nan')] else 0.0,
                 axis=1
             )
 
-            def ratio_fmt(val):
-                if pd.isnull(val) or val is None:
-                    return '0.0 students per teacher'
-                try:
-                    return f"{val:.1f} students per teacher"
-                except Exception:
-                    return '0.0 students per teacher'
+            from data_loader import ratio_fmt, build_modality_hover
             df["ratio_display"] = df["student_teacher_ratio"].apply(ratio_fmt)
-            # Underline school name in hover
-            df["school_hover"] = df["SCHOOL_NAME"].apply(
-                lambda x: f"<u>{x}</u>")
+            df["school_hover"] = df.apply(lambda row: build_modality_hover(
+                row, modality_type, HOVER_TEMPLATES), axis=1)
             fig.add_trace(go.Scattermapbox(
                 lon=df["lon"], lat=df["lat"],
                 mode="markers", marker=dict(size=8, color=color, opacity=0.5),
                 name="",
                 visible=True,
                 showlegend=False,
-                hovertemplate=(
-                    "%{customdata[0]}<br>CS Students: %{customdata[1]}<br>Certified Teachers: %{customdata[2]}<br>Student-Teacher Ratio: %{customdata[3]}"
-                ),
-                customdata=df[["school_hover", "CS_Enrollment",
-                               "Certified_Teachers", "ratio_display"]].values
+                hovertemplate="%{customdata[0]}",
+                customdata=df[["school_hover"]].values
             ))
         if "show_legend" in map_options:
-            # Dynamic legend title for modalities
-            modality_title = "Modality" if modality_type == "LOGIC_CLASS" else "Expanded Modality"
+            modality_title = LABELS["legend_titles"]["modality"] if modality_type == "LOGIC_CLASS" else LABELS["legend_titles"]["expanded_modality"]
             legend_html = html.Div([
                 html.Div(modality_title, className="legend-title"),
                 html.Div([
                     html.Div([
                         html.Span(
-                            className=f"legend-dot legend-dot-{modality_class_map[k]}"),
+                            className=f"legend-dot legend-dot-{MODALITY_CLASS_MAP[k]}"),
                         html.Span(
-                            f"{modality_labels[k]} ({modality_counts.get(k, 0)})", className="legend-dot-label")
+                            f"{MODALITY_LABELS[k]} ({modality_counts.get(k, 0)})", className="legend-dot-label")
                     ], className="legend-dot-row")
-                    for k in color_map
+                    for k in MODALITY_COLOR_MAP
                 ], className="legend-dot-row-wrap")
             ], className="legend-block legend-modality-block")
     elif school == "disparity":
         legend_items = []
         disparity_col = dots_dropdown
+        # Use preloaded data
         schools = data_loader.SCHOOLDATA["approved_all"][[
-            "UNIQUESCHOOLID", "SCHOOL_NAME", "lat", "lon"]].copy()
-        # Get all RI values from joined table
+            "UNIQUESCHOOLID", "SCHOOL_NAME", "lat", "lon", "GRADE_RANGE",
+            "Race: Asian", "Race: Black", "Ethnicity: Hispanic", "Race: White",
+            "Total Student Count", "Female", "Male"
+        ]].copy()
+        disparity = data_loader.SCHOOLDATA["disparity"]
+        schools = schools.merge(disparity, on="UNIQUESCHOOLID", how="inner")
         ri_cols = ["RI_Asian", "RI_Black",
                    "RI_Hispanic", "RI_White", "RI_Female"]
-        query = f'SELECT "UNIQUESCHOOLID", {', '.join([f'"{col}"' for col in ri_cols])
-                                            } FROM census.gadoe2024_389'
-        disparity = pd.read_sql(query, engine)
-        schools = schools.merge(disparity, on="UNIQUESCHOOLID", how="inner")
 
-        # Strict binning for RI using pd.cut (always 5 bins: 2 below, parity, 2 above)
         vals = pd.to_numeric(schools[disparity_col], errors='coerce')
-        # Compute bin edges with uniqueness and fallback logic
-        below_vals = vals[vals < -0.05]
-        above_vals = vals[vals > 0.05]
-        eps = 1e-6
-        # Below parity edges
-        if len(below_vals) > 1:
-            min_below = below_vals.min()
-            max_below = below_vals.max()
-            mid_below = (min_below + max_below) / 2
-            below_edges = [min_below, mid_below]
-        elif len(below_vals) == 1:
-            min_below = max_below = below_vals.iloc[0]
-            below_edges = [min_below, min_below + eps]
-        else:
-            below_edges = [-0.05, -0.05 + eps]
-
-        # Above parity edges
-        if len(above_vals) > 1:
-            min_above = above_vals.min()
-            max_above = above_vals.max()
-            mid_above = (min_above + max_above) / 2
-            above_edges = [0.05, mid_above, max_above]
-            # Use only the last two for bin_edges
-            above_edges = [above_edges[1], above_edges[2]]
-        elif len(above_vals) == 1:
-            min_above = max_above = above_vals.iloc[0]
-            above_edges = [min_above, min_above + eps]
-        else:
-            above_edges = [0.05, 0.05 + eps]
-
-        # Build bin edges, ensuring strictly increasing
-        bin_edges = [below_edges[0], below_edges[1], -
-                     0.05, 0.05, above_edges[0], above_edges[1]]
-        # Guarantee strictly increasing
-        for i in range(1, len(bin_edges)):
-            if bin_edges[i] <= bin_edges[i-1]:
-                bin_edges[i] = bin_edges[i-1] + eps
-        # Bin labels and colors (strict order)
+        bin_edges = data_loader.get_ri_bin_edges(vals)
         bin_labels = [
             f"{bin_edges[0]:.4f} to {bin_edges[1]:.4f}",
             f"{bin_edges[1]:.4f} to -0.0500",
@@ -330,9 +217,6 @@ def update_map(map_options, school, dots_dropdown):
             f"0.0500 to {bin_edges[4]:.4f}",
             f"{bin_edges[4]:.4f} to {bin_edges[5]:.4f}"
         ]
-        # Strict color order: dark red, light red, white, light blue, dark blue
-        bin_colors = ['#7f2704', '#fdae6b', '#ffffff', '#9ecae1', '#08519c']
-        # Assign bins using pd.cut
         schools['RI_bin'] = pd.cut(
             vals,
             bins=bin_edges,
@@ -340,63 +224,42 @@ def update_map(map_options, school, dots_dropdown):
             include_lowest=True,
             right=True
         )
-        # Assign color by bin
         schools['Color'] = schools['RI_bin'].map(
-            lambda x: bin_colors[int(x)] if pd.notnull(x) else None)
+            lambda x: RI_BIN_COLORS[int(x)] if pd.notnull(x) else None)
 
-        # Plot each bin's dots, using strict bin assignment
-        # Plot white (parity) dots first so they appear below other dots
-        # 1. Plot parity bin (white) first
+        from data_loader import make_ri_hover
+
+        # Parity bin (i=2) - outlined dots: black (outline) then white (center)
         i_parity = 2
-        color = bin_colors[i_parity]
+        color = RI_BIN_COLORS[i_parity]
         label = bin_labels[i_parity]
         df = schools[schools['RI_bin'] == i_parity].copy()
         if not df.empty:
-            def make_ri_hover(row):
-                base = f"<u>{row['SCHOOL_NAME']}</u><br>"
-                ri_lines = []
-                for col in ri_cols:
-                    val = row[col]
-                    if col == disparity_col:
-                        ri_lines.append(
-                            f"<b>{col.replace('RI_', '')} RI: {val:.4f}</b>")
-                    else:
-                        ri_lines.append(
-                            f"{col.replace('RI_', '')} RI: {val:.4f}")
-                return base + "<br>".join(ri_lines)
-            df["ri_hover"] = df.apply(make_ri_hover, axis=1)
-            outline_size = 8
-            white_size = 6
+            df["ri_hover"] = df.apply(lambda row: make_ri_hover(
+                row, disparity_col, ri_cols, HOVER_TEMPLATES), axis=1)
+            # Black outline dot (same size as others)
             fig.add_trace(go.Scattermapbox(
                 lon=df['lon'], lat=df['lat'],
-                mode='markers', marker=dict(size=outline_size, color='black', opacity=0.7),
-                name=None, visible=True, showlegend=False, hoverinfo='skip'))
+                mode='markers', marker=dict(size=8, color='black', opacity=0.4),
+                name="", visible=True, showlegend=False,
+                hoverinfo="skip"
+            ))
+            # White center dot (smaller, on top, with hover)
             fig.add_trace(go.Scattermapbox(
                 lon=df['lon'], lat=df['lat'],
-                mode='markers', marker=dict(size=white_size, color='#ffffff', opacity=0.95),
+                mode='markers', marker=dict(size=5, color='white', opacity=1),
                 name="", visible=True, showlegend=False,
                 hovertemplate="%{customdata[0]}",
                 customdata=df[["ri_hover"]].values
             ))
-        # 2. Plot all other bins (except parity)
+        # Other bins
         for i in [0, 1, 3, 4]:
-            color = bin_colors[i]
+            color = RI_BIN_COLORS[i]
             label = bin_labels[i]
             df = schools[schools['RI_bin'] == i].copy()
             if not df.empty:
-                def make_ri_hover(row):
-                    base = f"<u>{row['SCHOOL_NAME']}</u><br>"
-                    ri_lines = []
-                    for col in ri_cols:
-                        val = row[col]
-                        if col == disparity_col:
-                            ri_lines.append(
-                                f"<b>{col.replace('RI_', '')} RI: {val:.4f}</b>")
-                        else:
-                            ri_lines.append(
-                                f"{col.replace('RI_', '')} RI: {val:.4f}")
-                    return base + "<br>".join(ri_lines)
-                df["ri_hover"] = df.apply(make_ri_hover, axis=1)
+                df["ri_hover"] = df.apply(lambda row: make_ri_hover(
+                    row, disparity_col, ri_cols, HOVER_TEMPLATES), axis=1)
                 fig.add_trace(go.Scattermapbox(
                     lon=df['lon'], lat=df['lat'],
                     mode='markers', marker=dict(size=8, color=color, opacity=0.8),
@@ -404,10 +267,9 @@ def update_map(map_options, school, dots_dropdown):
                     hovertemplate="%{customdata[0]}",
                     customdata=df[["ri_hover"]].values
                 ))
-        # Build legend (always show all five bins, in strict order, even if count is zero)
         legend_items = []
         for i in range(5):
-            color = bin_colors[i]
+            color = RI_BIN_COLORS[i]
             label = bin_labels[i]
             count = (schools['RI_bin'] == i).sum()
             legend_items.append(html.Div([
@@ -424,15 +286,8 @@ def update_map(map_options, school, dots_dropdown):
                           className="legend-dot-label")
             ], className="legend-dot-row"))
         if "show_legend" in map_options:
-            disparity_titles = {
-                "RI_Black": "Black Representation Index",
-                "RI_Asian": "Asian Representation Index",
-                "RI_Hispanic": "Hispanic Representation Index",
-                "RI_White": "White Representation Index",
-                "RI_Female": "Female Representation Index"
-            }
-            legend_title = disparity_titles.get(
-                disparity_col, "Representation Index")
+            legend_title = LABELS["legend_titles"].get(
+                disparity_col, LABELS["legend_titles"]["default"])
             legend_html = html.Div([
                 html.Div(legend_title, className="legend-title"),
                 html.Div([
@@ -441,53 +296,15 @@ def update_map(map_options, school, dots_dropdown):
                 ], className="legend-dot-row-wrap")
             ], className="legend-block legend-disparity-block")
     elif school == "gender":
-        # Dots dropdown: RI_Female, RI_Male
         gender_col = dots_dropdown
-        school_query = f"SELECT s.\"UNIQUESCHOOLID\", s.lat, s.lon, g.\"{gender_col}\" FROM \"allhsgrades24\".\"tbl_approvedschools\" s JOIN census.gadoe2024_389 g ON s.\"UNIQUESCHOOLID\" = g.\"UNIQUESCHOOLID\" WHERE s.lat IS NOT NULL AND s.lon IS NOT NULL"
-        schools = pd.read_sql(school_query, engine)
-        # Use bins from map3.py for female, similar for male
-        if gender_col == "RI_Female":
-            color_bins = [(-0.864929, -0.296520, '#7f2704'),
-                          (-0.296519, -0.211112, '#d94801'),
-                          (-0.211111, -0.051748, '#fdae6b'),
-                          (-0.051747, 0.032609, '#ffffff'),
-                          (0.034510, 0.257576, '#9ecae1'),
-                          (0.257577, 0.497095, '#3182bd'),
-                          (0.497096, 0.652174, '#08519c')]
-            legend_labels = [
-                '-0.864929 to -0.296520',
-                '-0.296519 to -0.211112',
-                '-0.211111 to -0.051748',
-                '-0.051747 to 0.032609',
-                '0.034510 to 0.257576',
-                '0.257577 to 0.497095',
-                '0.497096 to 0.652174'
-            ]
-        else:  # RI_Male
-            color_bins = [(-0.864929, -0.296520, '#7f2704'),
-                          (-0.296519, -0.211112, '#d94801'),
-                          (-0.211111, -0.051748, '#fdae6b'),
-                          (-0.051747, 0.032609, '#ffffff'),
-                          (0.034510, 0.257576, '#9ecae1'),
-                          (0.257577, 0.497095, '#3182bd'),
-                          (0.497096, 0.652174, '#08519c')]
-            legend_labels = [
-                '-0.864929 to -0.296520',
-                '-0.296519 to -0.211112',
-                '-0.211111 to -0.051748',
-                '-0.051747 to 0.032609',
-                '0.034510 to 0.257576',
-                '0.257577 to 0.497095',
-                '0.497096 to 0.652174'
-            ]
-
-        def get_color(val):
-            for b in color_bins:
-                if b[0] <= val <= b[1]:
-                    return b[2]
-            return None
+        # Use preloaded data
+        schools = data_loader.SCHOOLDATA["gender"]
+        color_bins = GENDER_COLOR_BINS
+        legend_labels = [
+            f'{low} to {high}' for (low, high, _) in color_bins
+        ]
         schools['Color'] = pd.to_numeric(
-            schools[gender_col], errors='coerce').apply(get_color)
+            schools[gender_col], errors='coerce').apply(lambda v: data_loader.get_gender_color(v, color_bins))
         for i, (low, high, color) in enumerate(color_bins):
             df = schools[schools['Color'] == color]
             fig.add_trace(go.Scattermapbox(
@@ -498,9 +315,7 @@ def update_map(map_options, school, dots_dropdown):
                 showlegend=False,
                 hovertemplate=df["SCHOOL_NAME"] if "SCHOOL_NAME" in df.columns else None
             ))
-    # (No-op: legend_html for modalities is now only built in the modalities branch above)
 
-    # Mapbox settings
     fig.update_layout(
         mapbox_style="white-bg",  # blank basemap
         mapbox_zoom=6.5,
@@ -512,7 +327,6 @@ def update_map(map_options, school, dots_dropdown):
         paper_bgcolor="white",
         plot_bgcolor="white"
     )
-    # --- Always show overlay legend if overlays are enabled ---
     overlay_legend = None
     if "show_legend" in map_options:
         overlay_items = []
@@ -521,7 +335,7 @@ def update_map(map_options, school, dots_dropdown):
                 html.Div([
                     html.Span(
                         className="legend-overlay-line legend-overlay-county"),
-                    html.Span("County Boundaries",
+                    html.Span(LABELS["overlay_legend"]["county"],
                               className="legend-overlay-label")
                 ], className="legend-overlay-row legend-overlay-county-row")
             )
@@ -530,7 +344,7 @@ def update_map(map_options, school, dots_dropdown):
                 html.Div([
                     html.Span(
                         className="legend-overlay-line legend-overlay-highway"),
-                    html.Span("Interstate Highways",
+                    html.Span(LABELS["overlay_legend"]["highway"],
                               className="legend-overlay-label")
                 ], className="legend-overlay-row legend-overlay-highway-row")
             )
@@ -540,7 +354,6 @@ def update_map(map_options, school, dots_dropdown):
                 className="legend-block legend-overlay-block"
             )
 
-    # Combine both legends into one container for side-by-side display
     legend_combined = None
     if legend_html and overlay_legend:
         legend_combined = [

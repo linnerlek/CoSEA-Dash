@@ -1,4 +1,3 @@
-# Utility/data processing functions moved from app.py
 from settings import *
 import os
 import tempfile

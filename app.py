@@ -372,4 +372,4 @@ def update_map(map_options, school, dots_dropdown):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

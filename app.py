@@ -6,12 +6,13 @@ warnings.filterwarnings(
     category=DeprecationWarning,
 )
 
-from dash import *
-import plotly.graph_objs as go
-import pandas as pd
-from sqlalchemy import create_engine
-from settings import *
 import data_loader
+from settings import *
+from sqlalchemy import create_engine
+import pandas as pd
+import plotly.graph_objs as go
+from dash import *
+
 
 engine = create_engine(DATABASE_URL)
 
@@ -24,7 +25,21 @@ app.layout = html.Div([
         dcc.Graph(
             id="main-map",
             className="main-map-graph",
-            config={"displayModeBar": False}
+                config={
+                    "displayModeBar": True,
+                    "scrollZoom": True,
+                    "doubleClick": "reset",
+                    # Only show the reset view button, remove all others including pan and Plotly logo
+                    "modeBarButtonsToRemove": [
+                        "zoom2d", "zoomIn2d", "zoomOut2d", "autoScale2d", "resetScale2d",
+                        "select2d", "lasso2d", "zoomInMapbox", "zoomOutMapbox", "toImage",
+                        "sendDataToCloud", "hoverClosestCartesian", "hoverCompareCartesian",
+                        "hoverClosestMapbox", "hoverClosestGeo", "hoverClosestGl2d",
+                        "hoverClosestPie", "toggleHover", "resetViewMapbox", "pan2d", "pan"
+                    ],
+                    "modeBarButtonsToAdd": ["resetViewMapbox"],
+                    "displaylogo": False
+                }
         ),
         html.Div(
             id="custom-legend-container",
@@ -325,7 +340,8 @@ def update_map(map_options, school, dots_dropdown):
         xaxis=dict(visible=False),
         yaxis=dict(visible=False),
         paper_bgcolor="white",
-        plot_bgcolor="white"
+        plot_bgcolor="white",
+        dragmode="pan"
     )
     overlay_legend = None
     if "show_legend" in map_options:

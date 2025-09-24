@@ -274,9 +274,8 @@ def load_geodata():
     counties = gpd.read_file(f"zip://{county_zip}")
     ga_counties = counties[counties["STATEFP"] == "13"].to_crs(epsg=4326)
     county_lines = []
-    simplify_tol = 0.01
     for _, row in ga_counties.iterrows():
-        geom = row.geometry.simplify(simplify_tol, preserve_topology=True)
+        geom = row.geometry
         if isinstance(geom, Polygon):
             x, y = geom.exterior.xy
             county_lines.append((list(x), list(y)))
@@ -296,12 +295,12 @@ def load_geodata():
     interstates = gpd.clip(interstates, ga_boundary)
     highway_lines = []
     for _, row in interstates.iterrows():
-        geom = row.geometry.simplify(simplify_tol, preserve_topology=True)
+        geom = row.geometry
         x, y = geom.xy
         highway_lines.append((list(x), list(y)))
     ga_outline = []
     for _, row in ga_boundary.iterrows():
-        geom = row.geometry.simplify(simplify_tol, preserve_topology=True)
+        geom = row.geometry
         if isinstance(geom, Polygon):
             x, y = geom.exterior.xy
             ga_outline.append((list(x), list(y)))

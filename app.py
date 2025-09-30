@@ -22,24 +22,31 @@ overlay_options = LABELS["overlay_options"]
 
 app.layout = html.Div([
     html.Div([
-        dcc.Graph(
-            id="main-map",
-            className="main-map-graph",
-            config={
-                "displayModeBar": True,
-                "scrollZoom": True,
-                "doubleClick": "reset",
-                # Only show the reset view button, remove all others including pan and Plotly logo
-                "modeBarButtonsToRemove": [
-                    "zoom2d", "zoomIn2d", "zoomOut2d", "autoScale2d", "resetScale2d",
-                    "select2d", "lasso2d", "zoomInMapbox", "zoomOutMapbox", "toImage",
-                    "sendDataToCloud", "hoverClosestCartesian", "hoverCompareCartesian",
-                    "hoverClosestMapbox", "hoverClosestGeo", "hoverClosestGl2d",
-                    "hoverClosestPie", "toggleHover", "resetViewMapbox", "pan2d", "pan"
-                ],
-                "modeBarButtonsToAdd": ["resetViewMapbox"],
-                "displaylogo": False
-            }
+        dcc.Loading(
+            id="map-loading",
+            custom_spinner=html.Div([
+                html.Div(className="loading-spinner"),
+                html.Div(id="loading-message")
+            ]),
+            children=[dcc.Graph(
+                id="main-map",
+                className="main-map-graph",
+                config={
+                    "displayModeBar": True,
+                    "scrollZoom": True,
+                    "doubleClick": "reset",
+                    # Only show the reset view button, remove all others including pan and Plotly logo
+                    "modeBarButtonsToRemove": [
+                        "zoom2d", "zoomIn2d", "zoomOut2d", "autoScale2d", "resetScale2d",
+                        "select2d", "lasso2d", "zoomInMapbox", "zoomOutMapbox", "toImage",
+                        "sendDataToCloud", "hoverClosestCartesian", "hoverCompareCartesian",
+                        "hoverClosestMapbox", "hoverClosestGeo", "hoverClosestGl2d",
+                        "hoverClosestPie", "toggleHover", "resetViewMapbox", "pan2d", "pan"
+                    ],
+                    "modeBarButtonsToAdd": ["resetViewMapbox"],
+                    "displaylogo": False
+                }
+            )]
         ),
         html.Div(
             id="custom-legend-container",
@@ -125,6 +132,13 @@ def update_dots_dropdown(school):
 )
 def update_map(map_options, school, dots_dropdown, underlay_dropdown):
 
+    ctx = callback_context
+    triggered = ctx.triggered if ctx else []
+    if triggered:
+        triggered_id = triggered[0]['prop_id'].split('.')[0]
+    else:
+        triggered_id = None
+
     fig = go.Figure()
     outline_lon = []
     outline_lat = []
@@ -139,59 +153,61 @@ def update_map(map_options, school, dots_dropdown, underlay_dropdown):
         hoverinfo="skip"
     ))
 
-    if "counties" in map_options:
-        all_lon = []
-        all_lat = []
-        for x, y in data_loader.GEODATA["county_lines"]:
-            all_lon.extend(x + [None])
-            all_lat.extend(y + [None])
-        fig.add_trace(go.Scattermapbox(
-            lon=all_lon, lat=all_lat, mode="lines",
-            line=dict(color="gray", width=0.5),
-            opacity=0.5,
-            name="County Lines", showlegend=True, visible=True,
-            hoverinfo="skip"
-        ))
+    if triggered_id != 'underlay-dropdown':
+        if "counties" in map_options:
+            all_lon = []
+            all_lat = []
+            for x, y in data_loader.GEODATA["county_lines"]:
+                all_lon.extend(x + [None])
+                all_lat.extend(y + [None])
+            fig.add_trace(go.Scattermapbox(
+                lon=all_lon, lat=all_lat, mode="lines",
+                line=dict(color="gray", width=0.5),
+                opacity=0.5,
+                name="County Lines", showlegend=True, visible=True,
+                hoverinfo="skip"
+            ))
 
-    if "highways" in map_options:
-        all_lon = []
-        all_lat = []
-        for x, y in data_loader.GEODATA["highway_lines"]:
-            all_lon.extend(x + [None])
-            all_lat.extend(y + [None])
-        fig.add_trace(go.Scattermapbox(
-            lon=all_lon, lat=all_lat, mode="lines",
-            line=dict(color="gray", width=1),
-            opacity=0.9,
-            name="Highways", showlegend=True, visible=True,
-            hoverinfo="skip"
-        ))
+        if "highways" in map_options:
+            all_lon = []
+            all_lat = []
+            for x, y in data_loader.GEODATA["highway_lines"]:
+                all_lon.extend(x + [None])
+                all_lat.extend(y + [None])
+            fig.add_trace(go.Scattermapbox(
+                lon=all_lon, lat=all_lat, mode="lines",
+                line=dict(color="gray", width=1),
+                opacity=0.9,
+                name="Highways", showlegend=True, visible=True,
+                hoverinfo="skip"
+            ))
 
-    # Add underlay if selected
-    if underlay_dropdown != DEFAULT_UNDERLAY_OPTION:
-        underlay_gdf = data_loader.load_cbg_underlay(underlay_dropdown)
-        underlay_gdf = underlay_gdf.set_index('GEOID')
-        geojson = json.loads(underlay_gdf.to_json())
-        # Custom grayscale colorscale to match map7.py exactly
-        custom_greys = [
-            [0, '#f0f0f0'],  # lightest
-            [0.25, '#bdbdbd'],
-            [0.5, '#969696'],
-            [0.75, '#636363'],
-            [1, '#252525']   # darkest
-        ]
-        fig.add_trace(go.Choroplethmapbox(
-            geojson=geojson,
-            locations=underlay_gdf.index.tolist(),
-            z=underlay_gdf['underlay_bin'].fillna(-1).tolist(),
-            colorscale=custom_greys,
-            zmin=0,
-            zmax=4,
-            showscale=False,
-            marker_opacity=0.6,
-            marker_line_width=0,
-            hoverinfo='skip'
-        ))
+    if triggered_id != 'map-options-toggle':
+        # Add underlay if selected
+        if underlay_dropdown != DEFAULT_UNDERLAY_OPTION:
+            underlay_gdf = data_loader.load_cbg_underlay(underlay_dropdown)
+            underlay_gdf = underlay_gdf.set_index('GEOID')
+            geojson = json.loads(underlay_gdf.to_json())
+            # Custom grayscale colorscale to match map7.py exactly
+            custom_greys = [
+                [0, '#f0f0f0'],  # lightest
+                [0.25, '#bdbdbd'],
+                [0.5, '#969696'],
+                [0.75, '#636363'],
+                [1, '#252525']   # darkest
+            ]
+            fig.add_trace(go.Choroplethmapbox(
+                geojson=geojson,
+                locations=underlay_gdf.index.tolist(),
+                z=underlay_gdf['underlay_bin'].fillna(-1).tolist(),
+                colorscale=custom_greys,
+                zmin=0,
+                zmax=4,
+                showscale=False,
+                marker_opacity=0.6,
+                marker_line_width=0,
+                hoverinfo='skip'
+            ))
 
     legend_html = None
     legend_extra = None
@@ -228,15 +244,37 @@ def update_map(map_options, school, dots_dropdown, underlay_dropdown):
             df["ratio_display"] = df["student_teacher_ratio"].apply(ratio_fmt)
             df["school_hover"] = df.apply(lambda row: build_modality_hover(
                 row, modality_type, HOVER_TEMPLATES), axis=1)
-            fig.add_trace(go.Scattermapbox(
-                lon=df["lon"], lat=df["lat"],
-                mode="markers", marker=dict(size=8, color=color, opacity=0.5),
-                name="",
-                visible=True,
-                showlegend=False,
-                hovertemplate="%{customdata[0]}",
-                customdata=df[["school_hover", "UNIQUESCHOOLID"]].values
-            ))
+            if modality == "No":
+                # White outline
+                fig.add_trace(go.Scattermapbox(
+                    lon=df["lon"], lat=df["lat"],
+                    mode="markers", marker=dict(size=10, color="white", opacity=1),
+                    name="",
+                    visible=True,
+                    showlegend=False,
+                    hovertemplate="%{customdata[0]}",
+                    customdata=df[["school_hover", "UNIQUESCHOOLID"]].values
+                ))
+                # Gray center
+                fig.add_trace(go.Scattermapbox(
+                    lon=df["lon"], lat=df["lat"],
+                    mode="markers", marker=dict(size=8, color=color, opacity=1),
+                    name="",
+                    visible=True,
+                    showlegend=False,
+                    hovertemplate="%{customdata[0]}",
+                    customdata=df[["school_hover", "UNIQUESCHOOLID"]].values
+                ))
+            else:
+                fig.add_trace(go.Scattermapbox(
+                    lon=df["lon"], lat=df["lat"],
+                    mode="markers", marker=dict(size=8, color=color, opacity=0.9),
+                    name="",
+                    visible=True,
+                    showlegend=False,
+                    hovertemplate="%{customdata[0]}",
+                    customdata=df[["school_hover", "UNIQUESCHOOLID"]].values
+                ))
         if "show_legend" in map_options:
             modality_title = LABELS["legend_titles"]["modality"] if modality_type == "LOGIC_CLASS" else LABELS["legend_titles"]["expanded_modality"]
             legend_html = html.Div([
@@ -428,6 +466,41 @@ def update_map(map_options, school, dots_dropdown, underlay_dropdown):
     else:
         legend_combined = None
     return fig, legend_combined
+
+
+@app.callback(
+    Output("loading-message", "children"),
+    [
+        Input("map-options-toggle", "value"),
+        Input("school-toggles", "value"),
+        Input("dots-dropdown", "value"),
+        Input("underlay-dropdown", "value"),
+    ]
+)
+def update_loading_message(map_options, school, dots_dropdown, underlay_dropdown):
+    components = []
+    messages = []
+    if underlay_dropdown != DEFAULT_UNDERLAY_OPTION:
+        messages.append("Loading map underlay")
+    if school == "modalities":
+        messages.append("Loading modality dots")
+    elif school == "disparity":
+        messages.append("Loading representation index dots")
+    elif school == "gender":
+        messages.append("Loading gender dots")
+    if "counties" in map_options:
+        messages.append("Loading county lines")
+    if "highways" in map_options:
+        messages.append("Loading highways")
+    if messages:
+        components.append(" | ".join(messages))
+    if underlay_dropdown != DEFAULT_UNDERLAY_OPTION:
+        components.append(html.Br())
+        components.append(
+            html.Div("This might take a minute...", style={"textAlign": "center"}))
+    if not components:
+        components.append("Loading map")
+    return components
 
 
 @app.callback(

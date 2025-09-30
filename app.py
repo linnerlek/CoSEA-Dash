@@ -16,7 +16,7 @@ warnings.filterwarnings(
 
 engine = create_engine(DATABASE_URL)
 
-app = dash.Dash(__name__)
+app = Dash(__name__)
 
 overlay_options = LABELS["overlay_options"]
 

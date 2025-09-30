@@ -132,6 +132,6 @@ DEFAULT_UNDERLAY_OPTION = "none"
 
 UNDERLAY_OPTIONS = [
     {"label": "None", "value": "none"},
-    {"label": "Black Population Ratio (ACS)",
+    {"label": "Black Population Ratio",
      "value": "black_population_ratio"}
 ]

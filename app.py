@@ -6,6 +6,7 @@ import pandas as pd
 import plotly.graph_objs as go
 from dash import *
 import warnings
+import json
 warnings.filterwarnings(
     "ignore",
     message="Parsing dates involving a day of month without a year specified is ambiguious",
@@ -119,9 +120,10 @@ def update_dots_dropdown(school):
         Input("map-options-toggle", "value"),
         Input("school-toggles", "value"),
         Input("dots-dropdown", "value"),
+        Input("underlay-dropdown", "value"),
     ]
 )
-def update_map(map_options, school, dots_dropdown):
+def update_map(map_options, school, dots_dropdown, underlay_dropdown):
 
     fig = go.Figure()
     outline_lon = []
@@ -164,6 +166,33 @@ def update_map(map_options, school, dots_dropdown):
             name="Highways", showlegend=True, visible=True,
             hoverinfo="skip"
         ))
+
+    # Add underlay if selected
+    if underlay_dropdown != DEFAULT_UNDERLAY_OPTION:
+        underlay_gdf = data_loader.load_cbg_underlay(underlay_dropdown)
+        underlay_gdf = underlay_gdf.set_index('GEOID')
+        geojson = json.loads(underlay_gdf.to_json())
+        # Custom grayscale colorscale to match map7.py exactly
+        custom_greys = [
+            [0, '#f0f0f0'],  # lightest
+            [0.25, '#bdbdbd'],
+            [0.5, '#969696'],
+            [0.75, '#636363'],
+            [1, '#252525']   # darkest
+        ]
+        fig.add_trace(go.Choroplethmapbox(
+            geojson=geojson,
+            locations=underlay_gdf.index.tolist(),
+            z=underlay_gdf['underlay_bin'].fillna(-1).tolist(),
+            colorscale=custom_greys,
+            zmin=0,
+            zmax=4,
+            showscale=False,
+            marker_opacity=0.6,
+            marker_line_width=0,
+            hoverinfo='skip'
+        ))
+
     legend_html = None
     legend_extra = None
     if school == "modalities":
@@ -412,7 +441,8 @@ def update_course_list(hoverData):
     if 'customdata' not in point or len(point['customdata']) < 2:
         return html.Div("No course data available.")
     school_id = str(point['customdata'][1])
-    school_name = data_loader.SCHOOLDATA["school_names"].get(school_id, f"School {school_id}")
+    school_name = data_loader.SCHOOLDATA["school_names"].get(
+        school_id, f"School {school_id}")
     courses = data_loader.SCHOOLDATA["courses"].get(school_id, [])
     if not courses:
         return html.Div(f"No approved courses found for {school_name}.")

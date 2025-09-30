@@ -254,10 +254,13 @@ def load_all_school_data():
 
     # Load courses data
     approved_courses = course_logic[course_logic['approved_flag'] == 1]
-    courses_grouped = approved_courses.groupby('UNIQUESCHOOLID')['COURSE_TITLE'].apply(list).reset_index()
-    courses_dict = {str(k): v for k, v in zip(courses_grouped['UNIQUESCHOOLID'], courses_grouped['COURSE_TITLE'])}
+    courses_grouped = approved_courses.groupby(
+        'UNIQUESCHOOLID')['COURSE_TITLE'].apply(list).reset_index()
+    courses_dict = {str(k): v for k, v in zip(
+        courses_grouped['UNIQUESCHOOLID'], courses_grouped['COURSE_TITLE'])}
 
-    school_names = {str(k): v for k, v in zip(approved_all['UNIQUESCHOOLID'], approved_all['SCHOOL_NAME'])}
+    school_names = {str(k): v for k, v in zip(
+        approved_all['UNIQUESCHOOLID'], approved_all['SCHOOL_NAME'])}
 
     return {
         "gadoe": gadoe,
@@ -336,15 +339,21 @@ def load_cbg_underlay(selected_field, bins=5):
     """
     # Load block group geometries
     block_query = (
-        'SELECT "GEOID", cbgpolygeom AS geom FROM "allhsgrades24"."tbl_cbg_finalassignment"'
+        'SELECT "GEOID", ST_Transform(cbgpolygeom, 4326) AS geom FROM "allhsgrades24"."tbl_cbg_finalassignment" '
     )
     block_groups = gpd.read_postgis(block_query, engine, geom_col='geom')
     block_groups['GEOID'] = block_groups['GEOID'].astype(str).str.zfill(12)
 
     # Load ACS data for selected field
-    acs_query = f'SELECT geoid, "{selected_field}" FROM census.acs2023_combined'
-    acs_df = pd.read_sql(acs_query, engine)
-    acs_df['geoid'] = acs_df['geoid'].astype(str).str.zfill(12)
+    if selected_field == "black_population_ratio":
+        acs_query = 'SELECT geoid, "black_alone_non_hispanic", "total_population" FROM census.acs2023_combined'
+        acs_df = pd.read_sql(acs_query, engine)
+        acs_df['geoid'] = acs_df['geoid'].astype(str).str.zfill(12)
+        acs_df[selected_field] = acs_df['black_alone_non_hispanic'] / acs_df['total_population']
+    else:
+        acs_query = f'SELECT geoid, "{selected_field}" FROM census.acs2023_combined'
+        acs_df = pd.read_sql(acs_query, engine)
+        acs_df['geoid'] = acs_df['geoid'].astype(str).str.zfill(12)
 
     # Merge ACS data into block groups
     block_groups = block_groups.merge(

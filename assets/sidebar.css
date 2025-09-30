@@ -43,3 +43,18 @@
   margin-bottom: 16px;
   margin-left: 10px;
 }
+
+.course-list {
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.course-list ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.course-list li {
+  margin-bottom: 2px;
+}

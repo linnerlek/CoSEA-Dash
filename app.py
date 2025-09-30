@@ -1,17 +1,16 @@
 # keep this at the top to silence warning
-import warnings
-warnings.filterwarnings(
-    "ignore",
-    message="Parsing dates involving a day of month without a year specified is ambiguious",
-    category=DeprecationWarning,
-)
-
 import data_loader
 from settings import *
 from sqlalchemy import create_engine
 import pandas as pd
 import plotly.graph_objs as go
 from dash import *
+import warnings
+warnings.filterwarnings(
+    "ignore",
+    message="Parsing dates involving a day of month without a year specified is ambiguious",
+    category=DeprecationWarning,
+)
 
 
 engine = create_engine(DATABASE_URL)
@@ -25,21 +24,21 @@ app.layout = html.Div([
         dcc.Graph(
             id="main-map",
             className="main-map-graph",
-                config={
-                    "displayModeBar": True,
-                    "scrollZoom": True,
-                    "doubleClick": "reset",
-                    # Only show the reset view button, remove all others including pan and Plotly logo
-                    "modeBarButtonsToRemove": [
-                        "zoom2d", "zoomIn2d", "zoomOut2d", "autoScale2d", "resetScale2d",
-                        "select2d", "lasso2d", "zoomInMapbox", "zoomOutMapbox", "toImage",
-                        "sendDataToCloud", "hoverClosestCartesian", "hoverCompareCartesian",
-                        "hoverClosestMapbox", "hoverClosestGeo", "hoverClosestGl2d",
-                        "hoverClosestPie", "toggleHover", "resetViewMapbox", "pan2d", "pan"
-                    ],
-                    "modeBarButtonsToAdd": ["resetViewMapbox"],
-                    "displaylogo": False
-                }
+            config={
+                "displayModeBar": True,
+                "scrollZoom": True,
+                "doubleClick": "reset",
+                # Only show the reset view button, remove all others including pan and Plotly logo
+                "modeBarButtonsToRemove": [
+                    "zoom2d", "zoomIn2d", "zoomOut2d", "autoScale2d", "resetScale2d",
+                    "select2d", "lasso2d", "zoomInMapbox", "zoomOutMapbox", "toImage",
+                    "sendDataToCloud", "hoverClosestCartesian", "hoverCompareCartesian",
+                    "hoverClosestMapbox", "hoverClosestGeo", "hoverClosestGl2d",
+                    "hoverClosestPie", "toggleHover", "resetViewMapbox", "pan2d", "pan"
+                ],
+                "modeBarButtonsToAdd": ["resetViewMapbox"],
+                "displaylogo": False
+            }
         ),
         html.Div(
             id="custom-legend-container",
@@ -71,6 +70,20 @@ app.layout = html.Div([
                 clearable=False,
                 className="sidebar-dots-dropdown"
             ),
+        ], className="sidebar-section"),
+        html.Div([
+            html.Strong("Underlays"),
+            dcc.Dropdown(
+                id="underlay-dropdown",
+                options=UNDERLAY_OPTIONS,
+                value=DEFAULT_UNDERLAY_OPTION,
+                clearable=False,
+                className="sidebar-underlay-dropdown"
+            ),
+        ], className="sidebar-section"),
+        html.Div([
+            html.Strong("Courses Offered"),
+            html.Div(id="course-list", className="course-list")
         ], className="sidebar-section"),
     ], className="sidebar"),
 ], className="app-root")
@@ -193,7 +206,7 @@ def update_map(map_options, school, dots_dropdown):
                 visible=True,
                 showlegend=False,
                 hovertemplate="%{customdata[0]}",
-                customdata=df[["school_hover"]].values
+                customdata=df[["school_hover", "UNIQUESCHOOLID"]].values
             ))
         if "show_legend" in map_options:
             modality_title = LABELS["legend_titles"]["modality"] if modality_type == "LOGIC_CLASS" else LABELS["legend_titles"]["expanded_modality"]
@@ -265,7 +278,7 @@ def update_map(map_options, school, dots_dropdown):
                 mode='markers', marker=dict(size=5, color='white', opacity=1),
                 name="", visible=True, showlegend=False,
                 hovertemplate="%{customdata[0]}",
-                customdata=df[["ri_hover"]].values
+                customdata=df[["ri_hover", "UNIQUESCHOOLID"]].values
             ))
         # Other bins
         for i in [0, 1, 3, 4]:
@@ -280,7 +293,7 @@ def update_map(map_options, school, dots_dropdown):
                     mode='markers', marker=dict(size=8, color=color, opacity=0.8),
                     name="", visible=True, showlegend=False,
                     hovertemplate="%{customdata[0]}",
-                    customdata=df[["ri_hover"]].values
+                    customdata=df[["ri_hover", "UNIQUESCHOOLID"]].values
                 ))
         legend_items = []
         for i in range(5):
@@ -328,7 +341,8 @@ def update_map(map_options, school, dots_dropdown):
                 name=f"{legend_labels[i]} ({len(df)})",
                 visible=True,
                 showlegend=False,
-                hovertemplate=df["SCHOOL_NAME"] if "SCHOOL_NAME" in df.columns else None
+                hovertemplate="%{customdata[0]}",
+                customdata=df[["SCHOOL_NAME", "UNIQUESCHOOLID"]].values
             ))
 
     fig.update_layout(
@@ -385,6 +399,33 @@ def update_map(map_options, school, dots_dropdown):
     else:
         legend_combined = None
     return fig, legend_combined
+
+
+@app.callback(
+    Output("course-list", "children"),
+    Input("main-map", "hoverData")
+)
+def update_course_list(hoverData):
+    if hoverData is None or not hoverData.get('points'):
+        return html.Div("Hover over a school to see courses.")
+    point = hoverData['points'][0]
+    if 'customdata' not in point or len(point['customdata']) < 2:
+        return html.Div("No course data available.")
+    school_id = str(point['customdata'][1])
+    school_name = data_loader.SCHOOLDATA["school_names"].get(school_id, f"School {school_id}")
+    courses = data_loader.SCHOOLDATA["courses"].get(school_id, [])
+    if not courses:
+        return html.Div(f"No approved courses found for {school_name}.")
+    from collections import Counter
+    course_counts = Counter(courses)
+    course_items = []
+    for course, count in course_counts.items():
+        capitalized_course = course.title()
+        if count == 1:
+            course_items.append(html.Li(capitalized_course))
+        else:
+            course_items.append(html.Li(f"{capitalized_course} ({count})"))
+    return html.Div(html.Ul(course_items))
 
 
 if __name__ == "__main__":

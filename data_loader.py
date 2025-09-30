@@ -252,13 +252,22 @@ def load_all_school_data():
     )
     gender = pd.read_sql(gender_query, engine)
 
+    # Load courses data
+    approved_courses = course_logic[course_logic['approved_flag'] == 1]
+    courses_grouped = approved_courses.groupby('UNIQUESCHOOLID')['COURSE_TITLE'].apply(list).reset_index()
+    courses_dict = {str(k): v for k, v in zip(courses_grouped['UNIQUESCHOOLID'], courses_grouped['COURSE_TITLE'])}
+
+    school_names = {str(k): v for k, v in zip(approved_all['UNIQUESCHOOLID'], approved_all['SCHOOL_NAME'])}
+
     return {
         "gadoe": gadoe,
         "course_logic": course_logic,
         "approved_all": approved_all,
         "school_modality_info": school_modality_info,
         "disparity": disparity,
-        "gender": gender
+        "gender": gender,
+        "courses": courses_dict,
+        "school_names": school_names
     }
 
 
@@ -318,3 +327,39 @@ def load_geodata():
 
 SCHOOLDATA = load_all_school_data()
 GEODATA = load_geodata()
+
+
+def load_cbg_underlay(selected_field, bins=5):
+    """
+    Load block group geometries and ACS data for the selected field.
+    Returns GeoDataFrame with binned values for grayscale mapping.
+    """
+    # Load block group geometries
+    block_query = (
+        'SELECT "GEOID", cbgpolygeom AS geom FROM "allhsgrades24"."tbl_cbg_finalassignment"'
+    )
+    block_groups = gpd.read_postgis(block_query, engine, geom_col='geom')
+    block_groups['GEOID'] = block_groups['GEOID'].astype(str).str.zfill(12)
+
+    # Load ACS data for selected field
+    acs_query = f'SELECT geoid, "{selected_field}" FROM census.acs2023_combined'
+    acs_df = pd.read_sql(acs_query, engine)
+    acs_df['geoid'] = acs_df['geoid'].astype(str).str.zfill(12)
+
+    # Merge ACS data into block groups
+    block_groups = block_groups.merge(
+        acs_df, left_on='GEOID', right_on='geoid', how='left')
+
+    # Bin the selected field for grayscale mapping
+    if block_groups[selected_field].notnull().sum() > 0:
+        block_groups['underlay_bin'] = pd.qcut(
+            block_groups[selected_field], bins, labels=False, duplicates='drop')
+    else:
+        block_groups['underlay_bin'] = None
+
+    # Grayscale colors (light to dark)
+    gray_colors = ["#f0f0f0", "#bdbdbd", "#969696", "#636363", "#252525"]
+    block_groups['underlay_color'] = block_groups['underlay_bin'].map(
+        lambda x: gray_colors[int(x)] if pd.notnull(x) else None)
+
+    return block_groups

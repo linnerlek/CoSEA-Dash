@@ -128,3 +128,10 @@ DEFAULT_MAP_OPTIONS = ["show_legend", "highways", "counties"]
 DEFAULT_SCHOOL_TOGGLE = "modalities"
 DEFAULT_DOTS_DROPDOWN_MODALITIES = "LOGIC_CLASS"
 DEFAULT_DOTS_DROPDOWN_DISPARITY = "RI_Asian"
+DEFAULT_UNDERLAY_OPTION = "none"
+
+UNDERLAY_OPTIONS = [
+    {"label": "None", "value": "none"},
+    {"label": "Black Population Ratio (ACS)",
+     "value": "black_population_ratio"}
+]

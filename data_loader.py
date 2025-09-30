@@ -349,7 +349,8 @@ def load_cbg_underlay(selected_field, bins=5):
         acs_query = 'SELECT geoid, "black_alone_non_hispanic", "total_population" FROM census.acs2023_combined'
         acs_df = pd.read_sql(acs_query, engine)
         acs_df['geoid'] = acs_df['geoid'].astype(str).str.zfill(12)
-        acs_df[selected_field] = acs_df['black_alone_non_hispanic'] / acs_df['total_population']
+        acs_df[selected_field] = acs_df['black_alone_non_hispanic'] / \
+            acs_df['total_population']
     else:
         acs_query = f'SELECT geoid, "{selected_field}" FROM census.acs2023_combined'
         acs_df = pd.read_sql(acs_query, engine)
